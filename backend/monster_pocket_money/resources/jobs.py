@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
 
+from monster_pocket_money.models.jobs import JobsModel
+
 
 class Job(Resource):
     parser = reqparse.RequestParser()

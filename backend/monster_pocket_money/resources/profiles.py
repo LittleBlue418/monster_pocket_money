@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
+from pymongo.collection import ObjectId
 
+from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.profiles import ProfilesModel
 
 
@@ -21,19 +23,23 @@ class Profile(Resource):
                         type=str,
                         required=True,
                         help='Profile must have a picture selected')
-    parser.add_argument('number_completed_jobs',
-                        # Dictionary {job name : number of times completed}
+    parser.add_argument('completed_jobs',
+                        # List of Objects
+                        # [
+                        #   {0: Object
+                        #      job: {job object}
+                        #      number_completed_instances: 1
+                        #   },
+                        # ]
                         action='append',
-                        # TODO: is it append for a dictionary?
                         required=True,
-                        # TODO: should this be required?
+                        # TODO: should this be required? It will start empty
                         help='List the jobs this person has ccompleted')
-    parser.add_argument('pocket_money_owed',
-                        type=int,
-                        # TODO: needs positive and negative (int?)
+    parser.add_argument('money_owed',
+                        type=float,
                         required=True,
                         help='Profile must set amount of pocket money owed')
-    parser.add_argument('total_pocket_money_earned',
+    parser.add_argument('total_money_earned',
                         type=int,
                         required=True,
                         help='Profile must have total pocket money earned')
@@ -48,8 +54,24 @@ class Profile(Resource):
         return ProfilesModel.return_as_object(profile)
 
     def put(self, profile_id):
-        # Edit a specific profile
-        pass
+        """ Edit a specific profile """
+        request_data = Profile.parser.parse_args()
+
+        if not ProfilesModel.find_by_id(profile_id):
+            return {"message": "A profile with that ID does not exist"}, 404
+
+        try:
+            updated_profile = ProfilesModel.build_profile_from_request(
+                request_data)
+
+            mongo.db.profiles.update(
+                {"_id": ObjectId(profile_id)}, updated_profile)
+            updated_profile['_id'] = profile_id
+
+            return ProfilesModel.return_as_object(updated_profile)
+
+        except ValidationError as error:
+            return {"message": error.message}, 400
 
     def delete(self, profile_id):
         # Delete a specific profile
