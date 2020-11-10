@@ -1,0 +1,1 @@
+FLASK_APP=monster_pocket_money:api
