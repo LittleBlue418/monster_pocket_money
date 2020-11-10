@@ -1,0 +1,1 @@
+An app for families, allowing parents to set pocket money jobs and childeren to track the jobs they do and see their pocket money in real time. With monsters!
