@@ -33,8 +33,13 @@ class Job(Resource):
                         help='Job must have a date of last generation')
 
     def get(self, job_id):
-        # Return a specific job
-        pass
+        """ Return a specific job """
+        job = JobsModel.find_by_id(job_id)
+
+        if job is None:
+            return {"message": "A job with that IDD does not exist"}, 404
+
+        return JobsModel.return_as_object(job)
 
     def put(self, job_id):
         # Edit a specific job
