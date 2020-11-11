@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from pymongo import DESCENDING
+from pymongo.collection import ObjectId
 
 from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.jobs import JobsModel
@@ -42,8 +43,22 @@ class Job(Resource):
         return JobsModel.return_as_object(job)
 
     def put(self, job_id):
-        # Edit a specific job
-        pass
+        """ Edit a specific job """
+        request_data = Job.parser.parse_args()
+
+        if not JobsModel.find_by_id(job_id):
+            return {"message": "A job with that ID does not exist"}, 404
+
+        try:
+            # TODO: transaction - also update jobs saved in user's profiles
+            updated_job = JobsModel.build_job_from_request(request_data)
+            mongo.db.jobs.update({"_id": ObjectId(job_id)}, updated_job)
+
+            return JobsModel.return_as_object(updated_job)
+
+        except ValidationError as error:
+            return {"message": error.message}, 400
+
 
     def delete(self, job_id):
         # Delete a specific job
