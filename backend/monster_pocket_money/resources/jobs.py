@@ -1,4 +1,6 @@
 from flask_restful import Resource, reqparse
+from pymongo import DESCENDING
+
 from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.jobs import JobsModel
 
@@ -46,8 +48,20 @@ class Job(Resource):
 class JobsCollection(Resource):
 
     def get(self):
-        # Return all jobs
-        pass
+        """ Return all jobs """
+        print('here')
+        try:
+            jobs = [
+                JobsModel.return_as_object(job)
+                for job in mongo.db.jobs.find().sort('name', DESCENDING)
+            ]
+        except Exception as error:
+            print(error)
+            return {'message': "Malformed input. Check the console"}, 400
+
+        return {
+            'jobs': jobs
+        }
 
     def post(self):
         """ Add a new job to the db """

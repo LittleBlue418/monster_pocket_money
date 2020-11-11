@@ -66,7 +66,6 @@ class JobsModel():
         # Start date
         built_job['start_date'] = request_data.get('start_date', 0)
 
-
         if built_job['start_date'] <= 0:
             raise ValidationError('start date must be greater than 0')
 
