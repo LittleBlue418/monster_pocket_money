@@ -59,10 +59,18 @@ class Job(Resource):
         except ValidationError as error:
             return {"message": error.message}, 400
 
-
     def delete(self, job_id):
-        # Delete a specific job
-        pass
+        """ Delete a specific job """
+        job = JobsModel.find_by_id(job_id)
+
+        if job is None:
+            return {"message": "A job with that ID does not exist"}
+
+        # TODO: remove job from user profile once it has been deleted
+
+        mongo.db.jobs.remove({"_id": ObjectId(job_id)})
+
+        return {"message": "Job has been deleted"}
 
 
 class JobsCollection(Resource):
