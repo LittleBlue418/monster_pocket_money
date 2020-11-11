@@ -20,8 +20,6 @@ class ProfilesModel():
     def find_by_name(name):
         return mongo.db.profiles.find_one({"name": name})
 
-    # TODO: should I build a specif 'change password' method?
-
     @staticmethod
     def build_profile_from_request(request_data):
 
@@ -56,7 +54,7 @@ class ProfilesModel():
                 )
 
         # Admin
-        built_profile['is_admin'] = request_data.get('is_admin')
+        built_profile['is_admin'] = request_data.get('is_admin', False)
 
         # Picture
         built_profile['picture'] = request_data.get('picture', '').strip()
@@ -65,7 +63,7 @@ class ProfilesModel():
             raise ValidationError('Profile must have a picture!')
 
         # Completed Jobs
-        built_profile['completed_jobs'] = request_data['completed_jobs']
+        built_profile['completed_jobs'] = request_data.get('completed_jobs', [])
 
         if built_profile['completed_jobs']:
             for job_object in built_profile['completed_jobs']:
@@ -86,9 +84,12 @@ class ProfilesModel():
             pass
 
         # Pocket money owed
-        built_profile['money_owed'] = request_data['money_owed']
+        built_profile['money_owed'] = request_data.get('money_owed')
+
+        if not built_profile['money_owed'].isdigit():
+            raise ValidationError('money_owed must be a numarical value')
 
         # Total pocket money earned
-        built_profile['total_money_earned'] = request_data['total_money_earned']
+        built_profile['total_money_earned'] = request_data.get('total_money_earned')
 
         return built_profile

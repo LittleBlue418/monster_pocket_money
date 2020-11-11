@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-
+from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.jobs import JobsModel
 
 
@@ -50,5 +50,23 @@ class JobsCollection(Resource):
         pass
 
     def post(self):
-        # Create a new instance of type job
-        pass
+        """ Add a new job to the db """
+        try:
+            request_data = Job.parser.parse_args()
+        except Exception as error:
+            print(error)
+            return {'message': "Malformed input. Check the console"}, 400
+
+        try:
+            new_job = JobsModel.build_job_from_request(request_data)
+
+            if JobsModel.find_by_name(new_job['name']):
+                return {'message': 'A job with that name already exists'}, 400
+
+            result = mongo.db.jobs.insert_one(new_job)
+            new_job['_id'] = result.inserted_id
+
+            return JobsModel.return_as_object(new_job)
+
+        except ValidationError as error:
+            return {'message': error.message}, 400

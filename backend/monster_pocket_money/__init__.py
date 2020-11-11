@@ -6,6 +6,7 @@ from flask import Flask
 from monster_pocket_money.error_propagating_api import ErrorPropagatingApi
 from monster_pocket_money.models import mongo
 from monster_pocket_money.resources.profiles import Profile, ProfilesCollection
+from monster_pocket_money.resources.jobs import JobsCollection, Job
 
 load_dotenv()
 
@@ -18,6 +19,8 @@ api = ErrorPropagatingApi(app)
 
 api.add_resource(ProfilesCollection, '/api/profiles')
 api.add_resource(Profile, '/api/profiles/<profile_id>')
+api.add_resource(JobsCollection, '/api/jobs')
+api.add_resource(Job, '/api/jobs/<job_id>')
 
 
 if __name__ == '__main__':
