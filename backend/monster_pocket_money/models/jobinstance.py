@@ -42,12 +42,6 @@ class JobInstanceModel():
             if not mongo.db.profiles.find_one({"_id": participant['_id']}):
                 return {"message": "Profile not found"}
 
-        # Creation Date
-        built_jobinstance['creation_date'] = request_data.get('creation_date', 0)
-
-        if built_jobinstance['creation_date'] <= 0:
-            raise ValidationError('creation date must be greater than 0')
-
         # Completion Date
         built_jobinstance['completion_date'] = request_data.get('completion_date', 0)
 

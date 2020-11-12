@@ -28,7 +28,7 @@ class Job(Resource):
                         type=int,  # TODO: type=datetime
                         required=True,
                         help='Job must have a start date')
-    parser.add_argument('last_generated_instance',
+    parser.add_argument('last_completed',
                         type=int,  # TODO: type=datetime
                         required=True,
                         help='Job must have a date of last generation')

@@ -14,7 +14,7 @@ class JobInstance(Resource):
                         #   'reward': 0,
                         #   'frequency': 0,
                         #   'start_date': 0,
-                        #   'last_generated_instance': 0
+                        #   'last_completed': 0
                         # }
                         required=True,
                         help='Job must be added')
@@ -28,10 +28,6 @@ class JobInstance(Resource):
                         action='append',  # List
                         required=True,
                         help='Job must have participants')
-    parser.add_argument('creation_date',
-                        type=int,  # TODO: type=datetime
-                        required=True,
-                        help='Job must have a completion date')
     parser.add_argument('completion_date',
                         type=int,  # TODO: type=datetime
                         required=True,
@@ -47,6 +43,7 @@ class JobInstance(Resource):
 
     def put(self, job_instance_id):
         # Edit a specific job instance
+        # TODO: once job approved, last completed date on job field updated
         pass
 
     def delete(self, job_instance_id):
@@ -76,6 +73,8 @@ class JobsInstanceCollection(Resource):
 
             result = mongo.db.jobs.insert_one(new_jobinstance)
             new_jobinstance['_id'] = result.inserted_id
+
+            # TODO: update the last_completed field on the job model
 
             return JobInstanceModel.return_as_object(new_jobinstance)
 

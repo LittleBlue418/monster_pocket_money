@@ -28,7 +28,7 @@ class JobsModel():
             'reward': 0,
             'frequency': 0,
             'start_date': 0,
-            'last_generated_instance': 0
+            'last_completed': 0
         }
 
         # Name
@@ -70,9 +70,9 @@ class JobsModel():
             raise ValidationError('start date must be greater than 0')
 
         # Last generated instance
-        built_job['last_generated_instance'] = request_data.get('last_generated_instance', 0)
+        built_job['last_completed'] = request_data.get('last_completed', 0)
 
-        if built_job['last_generated_instance'] <= 0:
+        if built_job['last_completed'] <= 0:
             raise ValidationError('last generated instance must be greater than 0')
 
         return built_job
