@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from pymongo import DESCENDING
 from pymongo.collection import ObjectId
 
 from monster_pocket_money.models import mongo, ValidationError
@@ -82,8 +83,19 @@ class Profile(Resource):
 class ProfilesCollection(Resource):
 
     def get(self):
-        # Return all profiles
-        pass
+        """ Return all profiles """
+        try:
+            profiles = [
+                ProfilesModel.return_as_object(profile)
+                for profile in mongo.db.profiles.find().sort('name', DESCENDING)
+            ]
+        except Exception as error:
+            print(error)
+            return {'message': "Malformed input. Check the console"}, 400
+
+        return {
+            'profiles': profiles
+        }
 
     def post(self):
         """ Create a new profile """
