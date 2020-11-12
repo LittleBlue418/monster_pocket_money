@@ -1,5 +1,6 @@
 from monster_pocket_money.models import mongo, ValidationError
-
+from monster_pocket_money.models.jobs import JobsModel
+from monster_pocket_money.models.profiles import ProfilesModel
 
 class JobInstanceModel():
 
@@ -17,19 +18,18 @@ class JobInstanceModel():
     @staticmethod
     def build_jobinstance_from_request(request_data):
         built_jobinstance = {
-            'job': {},
+            'job_id': {},
             'participants': [],
-            'creation_date': 0,
-            'completion_data': 0,
+            'completion_date': 0,
             'is_approved': False,
         }
 
         # Job
-        built_jobinstance['job'] = request_data.get('job', {})
+        built_jobinstance['job_id'] = request_data.get('job_id', '')
 
-        if not built_jobinstance['job']:
+        if not built_jobinstance['job_id']:
             return {"message": "Job instance must include a job model"}
-        if not mongo.db.jobs.find_one({"_id": built_jobinstance['job']['_id']}):
+        if not JobsModel.find_by_id(built_jobinstance['job_id']):
             return {"message": "Job model not found"}
 
         # Participants
@@ -38,8 +38,9 @@ class JobInstanceModel():
         if len(built_jobinstance['participants']) < 1:
             return {"message": "There must be at least one participant"}
 
-        for participant in built_jobinstance['participants']:
-            if not mongo.db.profiles.find_one({"_id": participant['_id']}):
+        print(built_jobinstance)
+        for participant_id in built_jobinstance['participants']:
+            if not ProfilesModel.find_by_id(participant_id):
                 return {"message": "Profile not found"}
 
         # Completion Date

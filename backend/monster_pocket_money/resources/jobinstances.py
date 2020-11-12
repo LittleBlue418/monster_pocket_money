@@ -6,26 +6,13 @@ from monster_pocket_money.models.jobinstance import JobInstanceModel
 
 class JobInstance(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('job',
-                        # {
-                        #   '_id' : ObjectId("")
-                        #   'name': 'name',
-                        #   'description': 'description',
-                        #   'reward': 0,
-                        #   'frequency': 0,
-                        #   'start_date': 0,
-                        #   'last_completed': 0
-                        # }
+    parser.add_argument('job_id',
                         required=True,
+                        type=str,
                         help='Job must be added')
     parser.add_argument('participants',
-                        # [
-                        #   {
-                        #       '_id' : ObjectId(""),
-                        #       'name': 'name',
-                        #   },
-                        # ]
-                        action='append',  # List
+                        # [ '_id' , '_id' ]
+                        action='append',
                         required=True,
                         help='Job must have participants')
     parser.add_argument('completion_date',
@@ -71,7 +58,7 @@ class JobsInstanceCollection(Resource):
 
             # TODO: prevent multiple creations (cannot check on name)
 
-            result = mongo.db.jobs.insert_one(new_jobinstance)
+            result = mongo.db.jobinstances.insert_one(new_jobinstance)
             new_jobinstance['_id'] = result.inserted_id
 
             # TODO: update the last_completed field on the job model
