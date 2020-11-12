@@ -27,7 +27,10 @@ class Profile(Resource):
                         # List of Objects
                         # [
                         #   {0: Object
-                        #      job: {job object}
+                        #      job: {
+                        #           '_id' : ObjectId("")
+                        #           'name': 'name',
+                        #            }
                         #      number_completed_instances: 1
                         #   },
                         # ]

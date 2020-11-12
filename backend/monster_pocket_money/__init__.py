@@ -7,6 +7,7 @@ from monster_pocket_money.error_propagating_api import ErrorPropagatingApi
 from monster_pocket_money.models import mongo
 from monster_pocket_money.resources.profiles import Profile, ProfilesCollection
 from monster_pocket_money.resources.jobs import JobsCollection, Job
+from monster_pocket_money.resources.jobinstances import JobInstance, JobsInstanceCollection
 
 load_dotenv()
 
@@ -21,6 +22,8 @@ api.add_resource(ProfilesCollection, '/api/profiles')
 api.add_resource(Profile, '/api/profiles/<profile_id>')
 api.add_resource(JobsCollection, '/api/jobs')
 api.add_resource(Job, '/api/jobs/<job_id>')
+api.add_resource(JobsInstanceCollection, '/api/jobinstance')
+api.add_resource(JobInstance, '/api/jobinstance/<instance_id>')
 
 
 if __name__ == '__main__':

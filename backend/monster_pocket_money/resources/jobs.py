@@ -51,6 +51,7 @@ class Job(Resource):
 
         try:
             # TODO: transaction - also update jobs saved in user's profiles
+            # TODO: transaction - also update jobs saved in Job instances
             updated_job = JobsModel.build_job_from_request(request_data)
             mongo.db.jobs.update({"_id": ObjectId(job_id)}, updated_job)
 
