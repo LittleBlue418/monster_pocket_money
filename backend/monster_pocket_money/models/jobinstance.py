@@ -1,4 +1,4 @@
-from reduce_foodwaste.models import mongo, ValidationError
+from monster_pocket_money.models import mongo, ValidationError
 
 
 class JobInstanceModel():
