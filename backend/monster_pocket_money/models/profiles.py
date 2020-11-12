@@ -29,8 +29,8 @@ class ProfilesModel():
             'is_admin': False,
             'picture': 'picture',
             'completed_jobs': [],
-            'pocket_money_owed': 0,
-            'total_pocket_money_earned': 0
+            'money_owed': 0,
+            'total_money_earned': 0
         }
 
         # Name
@@ -63,7 +63,8 @@ class ProfilesModel():
             raise ValidationError('Profile must have a picture!')
 
         # Completed Jobs
-        built_profile['completed_jobs'] = request_data.get('completed_jobs', [])
+        built_profile['completed_jobs'] = request_data.get('completed_jobs') or []
+        print(request_data)
 
         if built_profile['completed_jobs']:
             for job_object in built_profile['completed_jobs']:
@@ -83,13 +84,12 @@ class ProfilesModel():
         else:
             pass
 
-        # Pocket money owed
+        # Money owed
         built_profile['money_owed'] = request_data.get('money_owed')
 
-        if not built_profile['money_owed'].isdigit():
-            raise ValidationError('money_owed must be a numarical value')
 
         # Total pocket money earned
         built_profile['total_money_earned'] = request_data.get('total_money_earned')
+
 
         return built_profile

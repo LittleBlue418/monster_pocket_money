@@ -35,15 +35,13 @@ class Profile(Resource):
                         #   },
                         # ]
                         action='append',
-                        required=True,
-                        # TODO: should this be required? It will start empty
-                        help='List the jobs this person has ccompleted')
+                        help='List the jobs this person has completed')
     parser.add_argument('money_owed',
                         type=float,
                         required=True,
                         help='Profile must set amount of pocket money owed')
     parser.add_argument('total_money_earned',
-                        type=int,
+                        type=float,
                         required=True,
                         help='Profile must have total pocket money earned')
 
@@ -88,5 +86,24 @@ class ProfilesCollection(Resource):
         pass
 
     def post(self):
-        # Create a new instance of type profile
-        pass
+        """ Create a new profile """
+        try:
+            request_data = Profile.parser.parse_args()
+            print(request_data)
+        except Exception as error:
+            print(error)
+            return {'message': "Malformed input. Check the console"}, 400
+
+        try:
+            new_profile = ProfilesModel.build_profile_from_request(request_data)
+
+            if ProfilesModel.find_by_name(new_profile['name']):
+                return {'message': 'A user with that name already exists'}, 400
+
+            result = mongo.db.profiles.insert_one(new_profile)
+            new_profile['_id'] = result.inserted_id
+
+            return ProfilesModel.return_as_object(new_profile)
+
+        except ValidationError as error:
+            return {'message': error.message}, 400
