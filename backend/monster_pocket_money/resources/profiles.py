@@ -76,8 +76,15 @@ class Profile(Resource):
             return {"message": error.message}, 400
 
     def delete(self, profile_id):
-        # Delete a specific profile
-        pass
+        """ Delete a specific profile """
+        profile = ProfilesModel.find_by_id(profile_id)
+
+        if profile is None:
+            return {"message": "A profile with that ID does not exist"}
+
+        mongo.db.profiles.remove({"_id": ObjectId(profile_id)})
+
+        return {"message": "Profile has been deleted"}
 
 
 class ProfilesCollection(Resource):
