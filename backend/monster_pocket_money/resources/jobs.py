@@ -78,7 +78,6 @@ class JobsCollection(Resource):
 
     def get(self):
         """ Return all jobs """
-        print('here')
         try:
             jobs = [
                 JobsModel.return_as_object(job)
