@@ -48,7 +48,7 @@ class Profile(Resource):
 
     def get(self, profile_id):
         """ Return a specific profile as an object """
-        profile = ProfilesModel.find_by_id()
+        profile = ProfilesModel.find_by_id(profile_id)
 
         if profile is None:
             return {"message": "A profile with that ID does not exist"}, 404
