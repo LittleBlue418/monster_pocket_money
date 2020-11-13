@@ -38,7 +38,7 @@ class Job(Resource):
         job = JobsModel.find_by_id(job_id)
 
         if job is None:
-            return {"message": "A job with that IDD does not exist"}, 404
+            return {"message": "A job with that ID does not exist"}, 404
 
         return JobsModel.return_as_object(job)
 
