@@ -41,8 +41,20 @@ class JobInstance(Resource):
 class JobsInstanceCollection(Resource):
 
     def get(self):
-        # Return all job instances
-        pass
+        """ Return all job instances """
+        try:
+            jobinstances = [
+                JobInstanceModel.return_as_object(jobinstance)
+                for jobinstance in mongo.db.jobinstances.find({'is_approved': False})
+            ]
+
+        except Exception as error:
+            print(error)
+            return {'message': "Malformed input. Check the console"}, 400
+
+        return {
+            'jobinstances': jobinstances
+        }
 
     def post(self):
         """ Create a new job instance """
