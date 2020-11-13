@@ -1,6 +1,8 @@
 from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.jobs import JobsModel
 from monster_pocket_money.models.profiles import ProfilesModel
+from pymongo.collection import ObjectId
+
 
 class JobInstanceModel():
 
@@ -12,7 +14,7 @@ class JobInstanceModel():
         }
 
     @staticmethod
-    def find_by_id( _id):
+    def find_by_id(_id):
         return mongo.db.jobinstances.find_one({"_id": ObjectId(_id)})
 
     @staticmethod

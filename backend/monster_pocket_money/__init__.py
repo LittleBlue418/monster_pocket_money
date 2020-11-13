@@ -23,7 +23,7 @@ api.add_resource(Profile, '/api/profiles/<profile_id>')
 api.add_resource(JobsCollection, '/api/jobs')
 api.add_resource(Job, '/api/jobs/<job_id>')
 api.add_resource(JobsInstanceCollection, '/api/jobinstance')
-api.add_resource(JobInstance, '/api/jobinstance/<instance_id>')
+api.add_resource(JobInstance, '/api/jobinstance/<jobinstance_id>')
 
 
 if __name__ == '__main__':

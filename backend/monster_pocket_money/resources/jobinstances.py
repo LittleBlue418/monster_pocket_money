@@ -24,16 +24,21 @@ class JobInstance(Resource):
                         required=True,
                         help='Job must have an approved status')
 
-    def get(self, job_instance_id):
-        # Return a specific job instance
-        pass
+    def get(self, jobinstance_id):
+        """ Return a specific job instance """
+        jobinstance = JobInstanceModel.find_by_id(jobinstance_id)
 
-    def put(self, job_instance_id):
+        if jobinstance is None:
+            return {"message": "A job with that ID does not exist"}, 404
+
+        return JobInstanceModel.return_as_object(jobinstance)
+
+    def put(self, jobinstance_id):
         # Edit a specific job instance
         # TODO: once job approved, last completed date on job field updated
         pass
 
-    def delete(self, job_instance_id):
+    def delete(self, jobinstance_id):
         # Delete a specific job instance
         pass
 
