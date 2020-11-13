@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from pymongo.collection import ObjectId
 
 from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.jobinstance import JobInstanceModel
@@ -39,8 +40,15 @@ class JobInstance(Resource):
         pass
 
     def delete(self, jobinstance_id):
-        # Delete a specific job instance
-        pass
+        """ Delete a specific job instance """
+        jobinstance = JobInstanceModel.find_by_id(jobinstance_id)
+
+        if jobinstance is None:
+            return {"message": "Job instance has already been deleted"}
+
+        mongo.db.jobinstances.remove({"_id": ObjectId(jobinstance_id)})
+
+        return {"message": "Job instance deleted"}
 
 
 class JobsInstanceCollection(Resource):
