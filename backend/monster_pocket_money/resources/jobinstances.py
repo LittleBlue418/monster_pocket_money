@@ -35,9 +35,21 @@ class JobInstance(Resource):
         return JobInstanceModel.return_as_object(jobinstance)
 
     def put(self, jobinstance_id):
-        # Edit a specific job instance
-        # TODO: once job approved, last completed date on job field updated
-        pass
+        """ Edit a specific job instance """
+        request_data = JobInstance.parser.parse_args()
+
+        if not JobInstanceModel.find_by_id(jobinstance_id):
+            return {"message": "A job instance with that ID does not exist"}, 404
+
+        try:
+            # TODO: transaction - if job approved, last completed date on job field updated
+            updated_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
+            mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, updated_jobinstance)
+
+            return JobInstanceModel.return_as_object(updated_jobinstance)
+
+        except ValidationError as error:
+            return {"message": error.message}, 400
 
     def delete(self, jobinstance_id):
         """ Delete a specific job instance """
@@ -80,6 +92,9 @@ class JobsInstanceCollection(Resource):
 
         try:
             new_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
+
+            if new_jobinstance['is_approved']:
+                raise ValidationError("Job instance cannot be complete uppon creation")
 
             # TODO: prevent multiple creations (cannot check on name)
 

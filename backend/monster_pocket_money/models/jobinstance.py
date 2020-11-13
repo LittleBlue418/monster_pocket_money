@@ -54,7 +54,4 @@ class JobInstanceModel():
         # Is Approved
         built_jobinstance['is_approved'] = request_data['is_approved']
 
-        if built_jobinstance['is_approved']:
-            raise ValidationError("Job instance cannot be complete uppon creation")
-
         return built_jobinstance
