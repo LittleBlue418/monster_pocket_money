@@ -28,20 +28,20 @@ class JobInstanceModel():
         built_jobinstance['job_id'] = request_data.get('job_id', '')
 
         if not built_jobinstance['job_id']:
-            return {"message": "Job instance must include a job model"}
+            raise ValidationError("Job instance must include a job model")
         if not JobsModel.find_by_id(built_jobinstance['job_id']):
-            return {"message": "Job model not found"}
+            raise ValidationError("Job model not found")
 
         # Participants
         built_jobinstance['participants'] = request_data.get('participants', [])
 
         if len(built_jobinstance['participants']) < 1:
-            return {"message": "There must be at least one participant"}
+            raise ValidationError("There must be at least one participant")
 
         print(built_jobinstance)
         for participant_id in built_jobinstance['participants']:
             if not ProfilesModel.find_by_id(participant_id):
-                return {"message": "Profile not found"}
+                raise ValidationError("Profile not found")
 
         # Completion Date
         built_jobinstance['completion_date'] = request_data.get('completion_date', 0)
@@ -53,7 +53,6 @@ class JobInstanceModel():
         built_jobinstance['is_approved'] = request_data['is_approved']
 
         if built_jobinstance['is_approved']:
-            return {
-                "message": "Job instance cannot be complete uppon creation"}
+            raise ValidationError("Job instance cannot be complete uppon creation")
 
         return built_jobinstance
