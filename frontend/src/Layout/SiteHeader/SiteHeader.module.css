@@ -33,3 +33,13 @@
 .Logo img {
     height: 100%;
 }
+
+.SiteTitle {
+    font-size: 40px;
+}
+
+@media (max-width: 720px) {
+    .SiteTitle {
+        display: none;
+    }
+}

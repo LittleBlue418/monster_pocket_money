@@ -12,6 +12,11 @@ const SiteHeader = ({toggleSidedrawer}) => (
       <img src={siteLogo} alt="Site Logo"/>
     </div>
 
+    {/* Site Title */}
+    <div className={classes.SiteTitle}>
+      <span>Monster Jobs</span>
+    </div>
+
     {/* Menu Icon */}
     <div className={classes.ButtonDiv} onClick={toggleSidedrawer}>
       <MenuIcon style={{
