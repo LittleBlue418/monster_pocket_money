@@ -4,7 +4,7 @@ import axios from 'axios'
 export class APIClient {
   constructor() {
     this.http = axios.create()
-    this.baseUrl = ''
+    this.baseUrl = 'http://localhost:3000'
 
     this.list_jobs = this.list_jobs.bind(this)
     this.create_job = this.create_job.bind(this)
