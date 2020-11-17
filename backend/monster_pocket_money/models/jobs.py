@@ -1,8 +1,12 @@
 from monster_pocket_money.models import mongo, ValidationError
 from pymongo.collection import ObjectId
+import random
 
 
 class JobsModel():
+    # Numbers for asigning postit notes
+    max = 8
+    min = 1
 
     @staticmethod
     def return_as_object(obj):
@@ -18,6 +22,10 @@ class JobsModel():
     @staticmethod
     def find_by_name(name):
         return mongo.db.jobs.find_one({"name": name})
+
+    @classmethod
+    def generate_postit_id(cls):
+        return random.randint(cls.min, cls.max)
 
     @staticmethod
     def build_job_from_request(request_data):
@@ -74,5 +82,9 @@ class JobsModel():
 
         if built_job['last_completed'] <= 0:
             raise ValidationError('last generated instance must be greater than 0')
+
+        # Postit ID
+        if request_data['postit_id']:
+            built_job['postit_id'] = request_data['postit_id']
 
         return built_job

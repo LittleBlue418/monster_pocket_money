@@ -32,6 +32,9 @@ class Job(Resource):
                         type=int,  # TODO: type=datetime
                         required=True,
                         help='Job must have a date of last generation')
+    parser.add_argument('postit_id',
+                        type=int,
+                        required=False)
 
     def get(self, job_id):
         """ Return a specific job """
@@ -104,6 +107,9 @@ class JobsCollection(Resource):
 
             if JobsModel.find_by_name(new_job['name']):
                 return {'message': 'A job with that name already exists'}, 400
+
+            # Generate and add code for post it note design
+            new_job['postit_id'] = JobsModel.generate_postit_id()
 
             result = mongo.db.jobs.insert_one(new_job)
             new_job['_id'] = result.inserted_id
