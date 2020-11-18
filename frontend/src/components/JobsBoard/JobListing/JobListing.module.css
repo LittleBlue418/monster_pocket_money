@@ -1,0 +1,63 @@
+.JobPostit {
+    height: 33.3vw;
+    width: 33.3vw;
+    background-size: cover;
+    text-decoration: none;
+    color: black;
+    position: fixed;
+}
+
+.PostitLink {
+    text-decoration: none;
+    height: 33.3vw;
+    width: 33.3vw;
+}
+
+
+.PostitBody {
+    margin: 20%;
+}
+
+.PostitBody h5{
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.PostitBody p{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+
+.postit-1 {
+    background-image: url(../../../assets/postits/postit-1.png);
+}
+
+.postit-2 {
+    background-image: url(../../../assets/postits/postit-2.png);
+}
+
+.postit-3 {
+    background-image: url(../../../assets/postits/postit-3.png);
+}
+
+.postit-4 {
+    background-image: url(../../../assets/postits/postit-4.png);
+}
+
+.postit-5 {
+    background-image: url(../../../assets/postits/postit-5.png);
+}
+
+.postit-6 {
+    background-image: url(../../../assets/postits/postit-6.png);
+}
+
+.postit-7 {
+    background-image: url(../../../assets/postits/postit-7.png);
+}
+
+.postit-8 {
+    background-image: url(../../../assets/postits/postit-8.png);
+}
