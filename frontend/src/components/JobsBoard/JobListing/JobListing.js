@@ -3,18 +3,14 @@ import classes from './JobListing.module.css'
 import { Link } from "react-router-dom"
 
 const JobListing = ({job}) => {
-  const postitClasses = [classes.JobPostit, classes[job.postit_id]]
+  const postitClasses = [classes[job.postit_id], classes.PostitLink]
 
-  /* TODO: fix formatting around postit notes */
+  /* TODO: logic to display £ if 1 or more, or p if less */
 
   return (
-    <Link className={classes.PostitLink} to={"/" + job._id}>
-      <div className={postitClasses.join(' ')}>
-        <div className={classes.PostitBody}>
-          <h5>{job.name}</h5>
-          <p>£{job.reward}</p>
-        </div>
-      </div>
+    <Link className={postitClasses.join(' ')} to={"/" + job._id}>
+      <h5>{job.name}</h5>
+      <p>£{job.reward}</p>
     </Link>
   )
 }

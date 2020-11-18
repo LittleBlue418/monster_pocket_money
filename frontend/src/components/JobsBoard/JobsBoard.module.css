@@ -1,7 +1,12 @@
 .JobsBoard {
     background-image: url(../../assets/images/cork-wallpaper-25-wallpaper-background-hd.jpg);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding-top: 80px;
+    background-repeat: repeat;
+    align-content: flex-start;
+    align-items: flex-start;
+    justify-content: center;
 }

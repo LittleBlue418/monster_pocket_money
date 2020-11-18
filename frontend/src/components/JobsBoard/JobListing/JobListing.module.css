@@ -1,34 +1,62 @@
-.JobPostit {
-    height: 33.3vw;
-    width: 33.3vw;
-    background-size: cover;
-    text-decoration: none;
-    color: black;
-    position: fixed;
-}
-
 .PostitLink {
     text-decoration: none;
-    height: 33.3vw;
-    width: 33.3vw;
+    height: 80vw;
+    max-height: 320px;
+    width: 80vw;
+    max-width: 320px;
+    background-size: cover;
+    color: black;
+    padding: 17%;
+    box-sizing: border-box;
 }
 
-
-.PostitBody {
-    margin: 20%;
-}
-
-.PostitBody h5{
-    font-size: 25px;
+.PostitLink h5{
+    font-size: 130%;
     font-weight: 500;
-    margin-bottom: 10px;
+    margin: 0;
 }
 
-.PostitBody p{
-    font-size: 20px;
-    margin-bottom: 10px;
+.PostitLink p{
+    font-size: 120%;
+    margin: 0;
 }
 
+@media (min-width: 400px) {
+    .PostitLink {
+        padding: 65px;
+    }
+}
+
+@media (min-width: 576px) {
+    .PostitLink {
+        height: 45vw;
+        width: 45vw;
+        padding: 9%;
+    }
+}
+
+@media (min-width: 720px) {
+    .PostitLink {
+        height: 30vw;
+        width: 30vw;
+        padding: 6% 6%;
+    }
+    .PostitLink h5{
+        font-size: 125%;
+    }
+}
+
+@media (min-width: 992px) {
+    .PostitLink {
+        padding: 65px;
+    }
+    .PostitLink h5{
+        font-size: 25px;
+    }
+    .PostitLink p{
+        font-size: 20px;
+    }
+}
 
 .postit-1 {
     background-image: url(../../../assets/postits/postit-1.png);
