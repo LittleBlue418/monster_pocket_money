@@ -54,9 +54,9 @@ class JobsModel():
 
         if len(built_job['description']) < 1:
             raise ValidationError('Job must have a description!')
-        if len(built_job['description']) > 300:
+        if len(built_job['description']) > 150:
             raise ValidationError(
-                'Job description cannot contain more then 300 characters!'
+                'Job description cannot contain more then 150 characters!'
                 )
 
         # Reward
