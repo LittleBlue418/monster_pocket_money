@@ -25,7 +25,7 @@ class JobsModel():
 
     @classmethod
     def generate_postit_id(cls):
-        return random.randint(cls.min, cls.max)
+        return f"postit-{random.randint(cls.min, cls.max)}"
 
     @staticmethod
     def build_job_from_request(request_data):

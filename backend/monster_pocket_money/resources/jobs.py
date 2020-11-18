@@ -33,7 +33,7 @@ class Job(Resource):
                         required=True,
                         help='Job must have a date of last generation')
     parser.add_argument('postit_id',
-                        type=int,
+                        type=str,
                         required=False)
 
     def get(self, job_id):
