@@ -17,7 +17,7 @@ class Job(Resource):
                         required=True,
                         help='Job must have a description')
     parser.add_argument('reward',
-                        type=int,  # TODO: type=decimal
+                        type=float,
                         required=True,
                         help='Job must have a monetary reward value')
     parser.add_argument('frequency',
@@ -85,6 +85,7 @@ class JobsCollection(Resource):
             jobs = [
                 JobsModel.return_as_object(job)
                 for job in mongo.db.jobs.find().sort('name', DESCENDING)
+                # TODO: sort in name Ascending
             ]
         except Exception as error:
             print(error)

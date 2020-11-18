@@ -44,9 +44,9 @@ class JobsModel():
 
         if len(built_job['name']) < 1:
             raise ValidationError('Job must have a name!')
-        if len(built_job['name']) > 60:
+        if len(built_job['name']) > 40:
             raise ValidationError(
-                'Job name cannot contain more then 60 characters!'
+                'Job name cannot contain more then 40 characters!'
                 )
 
         # Description
@@ -62,8 +62,8 @@ class JobsModel():
         # Reward
         built_job['reward'] = request_data.get('reward', 0)
 
-        if built_job['reward'] <= 0:
-            raise ValidationError('reward must be greater than 0')
+        if built_job['reward'] <= 0.05:
+            raise ValidationError('reward must be greater than 0.05')
 
         # Frequency
         built_job['frequency'] = request_data.get('frequency', 0)
