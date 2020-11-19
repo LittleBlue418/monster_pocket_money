@@ -17,11 +17,14 @@
     max-width: 153px;
     background-size: contain;
     background-repeat: no-repeat;
+    box-sizing: border-box;
+    margin: 0 5px;
 }
 
 .Selected {
     border: 5px solid #7d2ae8;
-    border-radius: 10px;
+    box-shadow: 0 0 3pt 2pt #b088e6;
+    border-radius: 50px;
 }
 
 @media (min-width:576px) {

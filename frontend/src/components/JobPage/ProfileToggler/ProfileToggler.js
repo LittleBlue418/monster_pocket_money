@@ -1,14 +1,18 @@
 import React from 'react'
 import classes from './ProfileToggler.module.css'
 
-const ProfileToggler = ({profileName, profilePicture}) => {
+const ProfileToggler = ({profile, onClick}) => {
 
-  const profilePicClasses = [classes[profilePicture], classes.ProfilePicDiv]
+  const profilePicClasses = [classes[profile.picture], classes.ProfilePicDiv]
+
+  if (profile.selected) {
+    profilePicClasses.push(classes.Selected)
+  }
 
   return (
-    <div className={classes.ProfileDiv}>
+    <div className={classes.ProfileDiv} onClick={onClick}>
       <div className={profilePicClasses.join(' ')}></div>
-      <span>{profileName}</span>
+      <span>{profile.name}</span>
     </div>
   )
 }

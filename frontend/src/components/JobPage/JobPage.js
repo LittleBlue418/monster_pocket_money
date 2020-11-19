@@ -45,14 +45,21 @@ const JobPage = () => {
     return <CircularProgress />
   }
 
-  const toggleProfile = (profile) => {
-    console.log('function called')
-    const oldProfiles = [...profiles]
-    /* TODO: onClick not responding */
+  const toggleProfile = (profileId) => {
+    const newProfiles = profiles.map((profile) => {
+      if (profile._id === profileId) {
+        profile.selected = !profile.selected
+      }
+      return profile
+    })
+    setProfiles(newProfiles)
   }
 
   /* Postit background */
   const postitClasses = [classes[job.postit_id], classes.JobPostit]
+
+  /* Check if any profiles havce been selected */
+  const anyProfileSelected = profiles.some(profile => profile.selected)
 
   return (
     <div className={classes.JobPage}>
@@ -71,10 +78,9 @@ const JobPage = () => {
               profiles.map((profile) => {
                 return (
                   <ProfileToggler
-                    profileName={profile.name}
-                    profilePicture={profile.picture}
+                    profile={profile}
                     key={profile._id}
-                    onClick={() => toggleProfile(profile)}
+                    onClick={() => toggleProfile(profile._id)}
                   />
                 )
               })
@@ -86,9 +92,16 @@ const JobPage = () => {
           <button className={"site-button secondary-button"} onClick={() => setOpenDoneDialog(false)} color="secondary">
             Cancel
           </button>
-          <button className={"site-button primary-button"} color="primary" >
+
+          <button
+            className={"site-button primary-button"}
+            color="primary"
+            disabled={!anyProfileSelected}
+            onClick={() => console.log('done')}
+          >
             Done
           </button>
+
         </DialogActions>
 
       </Dialog>
