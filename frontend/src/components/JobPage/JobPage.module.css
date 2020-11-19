@@ -1,0 +1,63 @@
+.JobPage {
+    background-image: url(../../assets/images/cork-wallpaper-25-wallpaper-background-hd.jpg);
+    min-height: 100vh;
+    padding-top: 80px;
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+}
+
+.JobPostit {
+    margin-top: 20px;
+    padding: 20%;
+    height: 100vw;
+    width: 100vw;
+    background-size: cover;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.JobPostit h5{
+    font-size: 110%;
+    font-weight: 500;
+    margin: 0;
+}
+
+.JobPostit p{
+    font-size: 90%;
+    margin: 0;
+}
+
+.postit-1 {
+    background-image: url(../../assets/postits/postit-1.png);
+}
+
+.postit-2 {
+    background-image: url(../../assets/postits/postit-2.png);
+}
+
+.postit-3 {
+    background-image: url(../../assets/postits/postit-3.png);
+}
+
+.postit-4 {
+    background-image: url(../../assets/postits/postit-4.png);
+}
+
+.postit-5 {
+    background-image: url(../../assets/postits/postit-5.png);
+}
+
+.postit-6 {
+    background-image: url(../../assets/postits/postit-6.png);
+}
+
+.postit-7 {
+    background-image: url(../../assets/postits/postit-7.png);
+}
+
+.postit-8 {
+    background-image: url(../../assets/postits/postit-8.png);
+}

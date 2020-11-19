@@ -7,23 +7,43 @@ import {
 
 import JobsBoard from '../components/JobsBoard/JobsBoard'
 import Layout from '../Layout/Layout'
+import JobPage from '../components/JobPage/JobPage'
+
+// MateriaUI bug: https://github.com/mui-org/material-ui/issues/13394
+import { ThemeProvider, unstable_createMuiStrictModeTheme as createMuiTheme, } from '@material-ui/core/styles'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#4caf50',
+    },
+    secondary: {
+      main: '#7e57c2'
+    },
+  },
+})
 
 function App() {
   return (
-    <Router>
+    <ThemeProvider theme={theme}>
+      <Router>
 
-      <Layout />
+        <Layout />
 
-      <Switch>
+        <Switch>
 
-        <Route path="/">
-          <JobsBoard />
-        </Route>
+          <Route path="/:job_id">
+            <JobPage />
+          </Route>
 
-      </Switch>
+          <Route path="/">
+            <JobsBoard />
+          </Route>
 
-    </Router>
+        </Switch>
 
+      </Router>
+    </ThemeProvider>
   );
 }
 
