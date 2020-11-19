@@ -9,3 +9,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.primary-button {
+  border-color: transparent !important;
+  background-color:#7d2ae8;
+  color: white;
+  border-radius: 5px;
+  width: 80px;
+  height: 35px;
+  align-self: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 110%;
+}
+
+.primary-button:focus {
+  outline: transparent !important;
+  box-shadow: 0 0 3pt 2pt #b088e6;
+}
