@@ -2,16 +2,15 @@ import React, { useState, useEffect, useContext } from 'react'
 import classes from './JobPage.module.css'
 import '../../index.css'
 
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import { APIContext } from '../../context/APIContext'
 import { capitalize, formatCurrency } from '../../context/helperFunction'
 import ProfileToggler from './ProfileToggler/ProfileToggler'
 
-import Button from '@material-ui/core/Button'
+
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 
@@ -21,6 +20,8 @@ const JobPage = () => {
   const { job_id } = useParams()
   const [profiles, setProfiles] = useState([])
   const [openDoneDialog, setOpenDoneDialog] = useState(false)
+
+  const history = useHistory()
 
   /* Get Job */
   useEffect(() => {
@@ -41,10 +42,7 @@ const JobPage = () => {
     })
   }, [setProfiles, API])
 
-  if (job === null) {
-    return <CircularProgress />
-  }
-
+  /* Toggle 'selected' status on profiles */
   const toggleProfile = (profileId) => {
     const newProfiles = profiles.map((profile) => {
       if (profile._id === profileId) {
@@ -53,6 +51,36 @@ const JobPage = () => {
       return profile
     })
     setProfiles(newProfiles)
+  }
+
+  /* Returns list of selected participant ID's */
+  const getSelectedParticipants = () => {
+    let participantIDs = []
+    profiles.forEach((profile) => {
+      if (profile.selected) {
+        participantIDs.push(profile._id)
+      }
+    })
+    return participantIDs
+  }
+
+  const saveJobInstanceToDatabase = () => {
+    let newJobInstance = {
+      "job_id": job_id,
+      "participants": getSelectedParticipants(),
+      "completion_date": 12,
+      "is_approved": false
+    }
+    API.create_jobinstance(newJobInstance).then((response) => {
+      console.log(response)
+      history.push('/')
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
+  if (job === null) {
+    return <CircularProgress />
   }
 
   /* Postit background */
@@ -97,7 +125,7 @@ const JobPage = () => {
             className={"site-button primary-button"}
             color="primary"
             disabled={!anyProfileSelected}
-            onClick={() => console.log('done')}
+            onClick={saveJobInstanceToDatabase}
           >
             Done
           </button>

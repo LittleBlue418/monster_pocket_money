@@ -3,6 +3,7 @@ from pymongo.collection import ObjectId
 
 from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.jobinstance import JobInstanceModel
+from monster_pocket_money.models.jobs import JobsModel
 
 
 class JobInstance(Resource):
@@ -91,19 +92,26 @@ class JobsInstanceCollection(Resource):
             return {'message': "Malformed input. Check the console"}, 400
 
         try:
-            new_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
+            with mongo.cx.start_session()as session:
+                with session.start_transaction():
 
-            if new_jobinstance['is_approved']:
-                raise ValidationError("Job instance cannot be complete uppon creation")
+                    # Building the jobInstance
+                    new_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
 
-            # TODO: prevent multiple creations (cannot check on name)
+                    if new_jobinstance['is_approved']:
+                        raise ValidationError("Job instance cannot be complete uppon creation")
 
-            result = mongo.db.jobinstances.insert_one(new_jobinstance)
-            new_jobinstance['_id'] = result.inserted_id
+                    # TODO: prevent multiple creations (cannot check on name)
 
-            # TODO: update the last_completed field on the job model
+                    result = mongo.db.jobinstances.insert_one(new_jobinstance)
+                    new_jobinstance['_id'] = result.inserted_id
 
-            return JobInstanceModel.return_as_object(new_jobinstance)
+                    # Update the last_completed field on the job model
+                    updated_job = JobsModel.find_by_id(new_jobinstance['job_id'])
+                    updated_job['last_completed'] += 1
+                    mongo.db.jobs.update({"_id": ObjectId(new_jobinstance['job_id'])}, updated_job)
+
+                    return JobInstanceModel.return_as_object(new_jobinstance)
 
         except ValidationError as error:
             return {"message": error.message}, 400
