@@ -4,7 +4,7 @@ import '../../index.css'
 
 import { useParams } from "react-router-dom"
 import { APIContext } from '../../context/APIContext'
-import capitalize from '../../context/helperFunction'
+import { capitalize, formatCurrency } from '../../context/helperFunction'
 import ProfileToggler from './ProfileToggler/ProfileToggler'
 
 import Button from '@material-ui/core/Button'
@@ -109,7 +109,7 @@ const JobPage = () => {
       <div className={postitClasses.join(' ')}>
         <h5>{capitalize(job.name)}</h5>
         <p>{capitalize(job.description)}</p>
-        <p>£{job.reward}</p>
+        <p>{formatCurrency(job.reward)}</p>
 
         <button className={"site-button primary-button"} onClick={() => setOpenDoneDialog(true)}>
           Done

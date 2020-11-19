@@ -1,5 +1,6 @@
 import React from 'react'
 import classes from './TotalMoney.module.css'
+import { formatCurrency } from '../../../context/helperFunction'
 
 const TotalMoney = ({profile, index}) => {
 
@@ -17,7 +18,9 @@ const TotalMoney = ({profile, index}) => {
     <div className={classes.EachTotalMoneyDiv}>
       {ranking}
       <div className={profilePicClasses.join(' ')}></div>
-      <div className={classes.ProfileText}>{profile.name} - £{profile.total_money_earned}</div>
+      <div className={classes.ProfileText}>
+        {profile.name} - {formatCurrency(profile.total_money_earned)}
+      </div>
     </div>
   )
 }

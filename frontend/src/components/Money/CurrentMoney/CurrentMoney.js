@@ -1,5 +1,6 @@
 import React from 'react'
 import classes from './CurrentMoney.module.css'
+import { formatCurrency } from '../../../context/helperFunction'
 
 const CurrentMoney = ({profile}) => {
 
@@ -9,7 +10,9 @@ const CurrentMoney = ({profile}) => {
   return (
     <div className={classes.MoneyOwedDiv}>
       <div className={profilePicClasses.join(' ')}></div>
-      <div className={classes.ProfileText}>£{profile.money_owed}</div>
+      <div className={classes.ProfileText}>
+        {formatCurrency(profile.money_owed)}
+      </div>
     </div>
   )
 }
