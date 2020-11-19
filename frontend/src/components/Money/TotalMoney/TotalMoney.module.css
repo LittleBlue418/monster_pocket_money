@@ -1,0 +1,92 @@
+.EachTotalMoneyDiv {
+    width: 90vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ProfilePicDiv {
+    height: 25vw;
+    max-height: 125px;
+    width: 25vw;
+    max-width: 125px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    margin: 20px 5px;
+}
+
+.Winner {
+    height: 15vw;
+    width: 15vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../../../assets/icons/winner.png);
+}
+
+.Rank {
+    width: 15vw;
+    font-size: 160%;
+    text-align: center;
+}
+
+.ProfileText {
+    font-size: 120%;
+}
+
+@media (min-width:720px) {
+    .Winner {
+        height: 10vw;
+        width: 10vw;
+    }
+    .Rank {
+        font-size: 200%;
+    }
+    .ProfileText {
+        font-size: 160%;
+    }
+    .ProfilePicDiv {
+        margin: 0;
+    }
+}
+
+@media (min-width:992px) {
+    .Rank {
+        font-size: 220%;
+    }
+    .ProfileText {
+        font-size: 200%;
+    }
+}
+
+.monster-1 {
+    background-image: url(../../../assets/icons/monster-1.png);
+}
+
+.monster-2 {
+    background-image: url(../../../assets/icons/monster-2.png);
+}
+
+.monster-3 {
+    background-image: url(../../../assets/icons/monster-3.png);
+}
+
+.monster-4 {
+    background-image: url(../../../assets/icons/monster-4.png);
+}
+
+.monster-5 {
+    background-image: url(../../../assets/icons/monster-5.png);
+}
+
+.monster-6 {
+    background-image: url(../../../assets/icons/monster-6.png);
+}
+
+.monster-7 {
+    background-image: url(../../../assets/icons/monster-7.png);
+}
+
+.monster-8 {
+    background-image: url(../../../assets/icons/monster-1.png);
+}

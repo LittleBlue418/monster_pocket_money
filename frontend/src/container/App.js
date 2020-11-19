@@ -8,6 +8,7 @@ import {
 import JobsBoard from '../components/JobsBoard/JobsBoard'
 import Layout from '../Layout/Layout'
 import JobPage from '../components/JobPage/JobPage'
+import Money from '../components/Money/Money'
 
 // MateriaUI bug: https://github.com/mui-org/material-ui/issues/13394
 import { ThemeProvider, unstable_createMuiStrictModeTheme as createMuiTheme, } from '@material-ui/core/styles'
@@ -31,6 +32,10 @@ function App() {
         <Layout />
 
         <Switch>
+
+          <Route path="/money">
+            <Money />
+          </Route>
 
           <Route path="/:job_id">
             <JobPage />

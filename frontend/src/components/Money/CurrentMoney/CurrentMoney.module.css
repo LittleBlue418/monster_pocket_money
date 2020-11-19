@@ -1,0 +1,76 @@
+.MoneyOwedDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.ProfilePicDiv {
+    height: 40vw;
+    max-height: 140px;
+    width: 40vw;
+    max-width: 140px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    margin: 0 5px;
+}
+
+.ProfileText {
+    font-size: 120%;
+    padding-top: 5px;
+}
+
+@media (min-width:576px) {
+    .ProfilePicDiv {
+        height: 20vw;
+        max-height: 180px;
+        width: 20vw;
+        max-width: 180px;
+    }
+}
+
+@media (min-width:720px) {
+    .ProfileText {
+        font-size: 160%;
+        padding-top: 15px;
+    }
+}
+
+@media (min-width:992px) {
+    .ProfileText {
+        font-size: 200%;
+    }
+}
+
+.monster-1 {
+    background-image: url(../../../assets/icons/monster-1.png);
+}
+
+.monster-2 {
+    background-image: url(../../../assets/icons/monster-2.png);
+}
+
+.monster-3 {
+    background-image: url(../../../assets/icons/monster-3.png);
+}
+
+.monster-4 {
+    background-image: url(../../../assets/icons/monster-4.png);
+}
+
+.monster-5 {
+    background-image: url(../../../assets/icons/monster-5.png);
+}
+
+.monster-6 {
+    background-image: url(../../../assets/icons/monster-6.png);
+}
+
+.monster-7 {
+    background-image: url(../../../assets/icons/monster-7.png);
+}
+
+.monster-8 {
+    background-image: url(../../../assets/icons/monster-1.png);
+}
