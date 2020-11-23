@@ -40,7 +40,6 @@ class JobInstanceModel():
         if len(built_jobinstance['participants']) < 1:
             raise ValidationError("There must be at least one participant")
 
-        print(built_jobinstance)
         for participant_id in built_jobinstance['participants']:
             if not ProfilesModel.find_by_id(participant_id):
                 raise ValidationError("Profile not found")

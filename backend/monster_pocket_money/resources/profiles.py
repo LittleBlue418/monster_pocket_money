@@ -25,16 +25,13 @@ class Profile(Resource):
                         required=True,
                         help='Profile must have a picture selected')
     parser.add_argument('completed_jobs',
-                        # List of Objects
-                        # [
-                        #   {0: Object
-                        #      job: {
-                        #           '_id' : ObjectId("")
-                        #           'name': 'name',
-                        #            }
-                        #      number_completed_instances: 1
-                        #   },
-                        # ]
+                        # Object
+                        # {
+                        #    'job_id': {
+                        #       'job_name': 'job_name'
+                        #       'number_completed_instances': 'number_completed_instances'
+                        #   }
+                        # }
                         action='append',
                         help='List the jobs this person has completed')
     parser.add_argument('money_owed',

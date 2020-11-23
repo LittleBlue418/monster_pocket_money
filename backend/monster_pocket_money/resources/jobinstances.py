@@ -4,6 +4,7 @@ from pymongo.collection import ObjectId
 from monster_pocket_money.models import mongo, ValidationError
 from monster_pocket_money.models.jobinstance import JobInstanceModel
 from monster_pocket_money.models.jobs import JobsModel
+from monster_pocket_money.models.profiles import ProfilesModel
 
 
 class JobInstance(Resource):
@@ -43,14 +44,45 @@ class JobInstance(Resource):
             return {"message": "A job instance with that ID does not exist"}, 404
 
         try:
-            # TODO: transaction - if job approved, last completed date on job field updated
-            updated_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
-            mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, updated_jobinstance)
+             with mongo.cx.start_session()as session:
+                with session.start_transaction():
 
-            return JobInstanceModel.return_as_object(updated_jobinstance)
+                    # Updating the job instance
+                    updated_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
+                    mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, updated_jobinstance)
+
+                    job_id = updated_jobinstance["job_id"]
+                    job = JobsModel.find_by_id(job_id)
+
+                    # Update PROFILES
+                    for profile_id in updated_jobinstance["participants"]:
+
+                        updated_profile = ProfilesModel.find_by_id(profile_id)
+
+                        # Completed Jobs
+                        if job_id in updated_profile["completed_jobs"]:
+                            updated_profile["completed_jobs"][job_id]["number_completed_instances"] += 1
+                        else:
+                            updated_profile["completed_jobs"][job_id] = {
+                                "job_name": job["name"],
+                                "number_completed_instances": 1
+                            }
+
+                        # Money Owed
+                        updated_profile["money_owed"] += job["reward"]
+
+                        # Total_money_earned
+                        updated_profile["total_money_earned"] += job["reward"]
+
+                        mongo.db.profiles.update({"_id": ObjectId(profile_id)}, updated_profile)
+
+                    return JobInstanceModel.return_as_object(updated_jobinstance)
 
         except ValidationError as error:
             return {"message": error.message}, 400
+
+        except Exception as error:
+            return {"message": "unknown error"}, 500
 
     def delete(self, jobinstance_id):
         """ Delete a specific job instance """
