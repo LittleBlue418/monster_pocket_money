@@ -1,62 +1,29 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, } from 'react'
 import classes from './Statistics.module.css'
-import { APIContext } from '../../context/APIContext'
 
-import CircularProgress from '@material-ui/core/CircularProgress'
+import ProfilesStatBox from './ProfilesStatBox/ProfilesStatBox';
+import JobsStatBox from './JobsStatBox/JobsStatBox';
+
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { InputLabel } from '@material-ui/core';
-import ProfileStatBox from './ProfileStatBox/ProfileStatBox';
-import JobStatBox from './JobStatBox/JobStatBox';
+
 
 
 const Statistics = () => {
-  const API = useContext(APIContext)
-  const [profiles, setProfiles] = useState(null)
   const [statisticsFilter, setStatisticsFilter] = useState("profile")
-  const [statsByJob, setStatsByJob] = useState(null)
-
-  /* Get Profiles */
-  useEffect(() => {
-    API.list_profiles().then((profiles) => {
-
-      setProfiles(profiles)
-    })
-  }, [setProfiles, API])
-
-
-  if (profiles === null) {
-    return <CircularProgress />
-  }
-
-  const handleFilter = (event) => {
-    setStatisticsFilter(event.target.value);
-  }
 
   /* CONDITIONAL RENDERING */
   const pageContent = () => {
-    if (statisticsFilter === "profile") {
-      return (
-        profiles.map((profile) =>(
-          <ProfileStatBox
-            profile={profile}
-            key={profile._id}
-          />
-        ))
-      )
-    } else if (statisticsFilter === "job") {
-      return (
-        profiles.map((profile) =>(
-          <JobStatBox
-            profile={profile}
-            key={profile._id}
-          />
-        ))
-      )
+    switch(statisticsFilter) {
+      case "profile":
+        return <ProfilesStatBox />
+      case "job":
+        return <JobsStatBox />
+      default:
+        break
     }
   }
-
 
   return(
     <div className={classes.StatisticsPage}>
@@ -69,7 +36,7 @@ const Statistics = () => {
           className={classes.FormControl}
           id="select-statistic-filter"
           value={statisticsFilter}
-          onChange={handleFilter}
+          onChange={(event) => setStatisticsFilter(event.target.value)}
         >
           <MenuItem value={"profile"}>By Monster</MenuItem>
           <MenuItem value={"job"}>By Job</MenuItem>

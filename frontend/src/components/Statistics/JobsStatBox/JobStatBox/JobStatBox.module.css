@@ -1,0 +1,57 @@
+.JobStatBox {
+    margin-bottom: 40px;
+}
+
+.JobBody {
+    margin: 2vw;
+    padding: 4vw 6vw;
+    border: 3px solid lightgrey;
+    border-radius: 25px;
+}
+
+.ParticipantDiv {
+
+}
+
+.ProfilePicDiv {
+    height: 12vw;
+    max-height: 153px;
+    width: 12vw;
+    max-width: 153px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    margin: 0 5px;
+}
+
+.monster-1 {
+    background-image: url(../../../../assets/icons/monster-1.png);
+}
+
+.monster-2 {
+    background-image: url(../../../../assets/icons/monster-2.png);
+}
+
+.monster-3 {
+    background-image: url(../../../../assets/icons/monster-3.png);
+}
+
+.monster-4 {
+    background-image: url(../../../../assets/icons/monster-4.png);
+}
+
+.monster-5 {
+    background-image: url(../../../../assets/icons/monster-5.png);
+}
+
+.monster-6 {
+    background-image: url(../../../../assets/icons/monster-6.png);
+}
+
+.monster-7 {
+    background-image: url(../../../../assets/icons/monster-7.png);
+}
+
+.monster-8 {
+    background-image: url(../../../../assets/icons/monster-1.png);
+}
