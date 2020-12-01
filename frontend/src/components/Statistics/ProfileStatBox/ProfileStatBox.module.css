@@ -1,0 +1,62 @@
+.ProfileStatBox {
+outline: 2px solid red;
+margin-bottom: 40px;
+}
+
+.ProfileHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 120%;
+}
+
+.ProfilePicDiv {
+    height: 15vw;
+    max-height: 153px;
+    width: 15vw;
+    max-width: 153px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    margin: 0 5px;
+}
+
+.ProfileBody {
+    margin: 2vw;
+    padding: 4vw 6vw;
+    border: 2px solid lightgrey;
+    border-radius: 25px;
+}
+
+.monster-1 {
+    background-image: url(../../../assets/icons/monster-1.png);
+}
+
+.monster-2 {
+    background-image: url(../../../assets/icons/monster-2.png);
+}
+
+.monster-3 {
+    background-image: url(../../../assets/icons/monster-3.png);
+}
+
+.monster-4 {
+    background-image: url(../../../assets/icons/monster-4.png);
+}
+
+.monster-5 {
+    background-image: url(../../../assets/icons/monster-5.png);
+}
+
+.monster-6 {
+    background-image: url(../../../assets/icons/monster-6.png);
+}
+
+.monster-7 {
+    background-image: url(../../../assets/icons/monster-7.png);
+}
+
+.monster-8 {
+    background-image: url(../../../assets/icons/monster-1.png);
+}
