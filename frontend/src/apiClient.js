@@ -55,23 +55,23 @@ export class APIClient {
   //============================================================
 
   list_jobinstances() {
-    return this.http.get(this.baseUrl + '/api/jobinstance').then(result => result.data.jobinstances)
+    return this.http.get(this.baseUrl + '/api/jobinstances').then(result => result.data.jobinstances)
   }
 
   create_jobinstance(jobinstance) {
-    return this.http.post(this.baseUrl + '/api/jobinstance', jobinstance).then(result => result.data)
+    return this.http.post(this.baseUrl + '/api/jobinstances', jobinstance).then(result => result.data)
   }
 
   get_jobinstance(jobinstance_id) {
-    return this.http.get(this.baseUrl + '/api/jobinstance/' + jobinstance_id).then(result => result.data)
+    return this.http.get(this.baseUrl + '/api/jobinstances/' + jobinstance_id).then(result => result.data)
   }
 
   update_jobinstance(jobinstance_id, jobinstance) {
-    return this.http.put(this.baseUrl + '/api/jobinstance/' + jobinstance_id, jobinstance).then(result => result.data)
+    return this.http.put(this.baseUrl + '/api/jobinstances/' + jobinstance_id, jobinstance).then(result => result.data)
   }
 
   delete_jobinstance(jobinstance_id) {
-    return this.http.delete(this.baseUrl + '/api/jobinstance/' + jobinstance_id).then(result => result.data)
+    return this.http.delete(this.baseUrl + '/api/jobinstances/' + jobinstance_id).then(result => result.data)
   }
 
 

@@ -96,7 +96,7 @@ class JobInstance(Resource):
         return {"message": "Job instance deleted"}
 
 
-class JobsInstanceCollection(Resource):
+class JobInstancesCollection(Resource):
 
     def get(self):
         """ Return all job instances """
