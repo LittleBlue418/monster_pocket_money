@@ -103,7 +103,31 @@ class JobsInstanceCollection(Resource):
         try:
             jobinstances = [
                 strip_objectid(jobinstance)
-                for jobinstance in mongo.db.jobinstances.find({'is_approved': False})
+                for jobinstance in mongo.db.jobinstances.aggregate([
+                    {
+                        '$match': {
+                            'is_approved': False
+                        }
+                    }, {
+                        '$lookup': {
+                            'from': 'profiles',
+                            'localField': 'participant_ids',
+                            'foreignField': '_id',
+                            'as': 'participants'
+                        }
+                    }, {
+                        '$lookup': {
+                            'from': 'jobs',
+                            'localField': 'job_id',
+                            'foreignField': '_id',
+                            'as': 'job'
+                        }
+                    }, {
+                        '$unwind': {
+                            'path': '$job'
+                        }
+                    }
+                ])
             ]
 
         except Exception as error:
