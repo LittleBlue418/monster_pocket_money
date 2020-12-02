@@ -10,7 +10,9 @@ import Layout from '../Layout/Layout'
 import JobPage from '../components/JobPage/JobPage'
 import Money from '../components/Money/Money'
 import Statistics from '../components/Statistics/Statistics'
+
 import AdminMenu from '../components/AdminMenu/AdminMenu'
+import ApproveCompletedJobs from '../components/AdminMenu/ApproveCompletedJobs/ApproveCompletedJobs'
 
 // MateriaUI bug: https://github.com/mui-org/material-ui/issues/13394
 import { ThemeProvider, unstable_createMuiStrictModeTheme as createMuiTheme, } from '@material-ui/core/styles'
@@ -55,11 +57,13 @@ function App() {
             <AdminMenu />
           </Route>
 
+          <Route path="/approve_completed">
+            <ApproveCompletedJobs />
+          </Route>
+
           <Route path="/:job_id">
             <JobPage />
           </Route>
-
-
 
           <Route path="/">
             <JobsBoard />
