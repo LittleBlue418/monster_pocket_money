@@ -54,7 +54,7 @@ const JobPage = () => {
   }
 
   /* Returns list of selected participant ID's */
-  const getSelectedParticipants = () => {
+  const getSelectedParticipantIDs = () => {
     let participantIDs = []
     profiles.forEach((profile) => {
       if (profile.selected) {
@@ -67,7 +67,7 @@ const JobPage = () => {
   const saveJobInstanceToDatabase = () => {
     let newJobInstance = {
       "job_id": job_id,
-      "participants": getSelectedParticipants(),
+      "participant_ids": getSelectedParticipantIDs(),
       "completion_date": 12,
       "is_approved": false
     }

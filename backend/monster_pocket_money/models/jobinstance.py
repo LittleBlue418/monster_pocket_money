@@ -14,7 +14,7 @@ class JobInstanceModel():
     def build_jobinstance_from_request(request_data):
         built_jobinstance = {
             'job_id': {},
-            'participants': [],
+            'participant_ids': [],
             'completion_date': 0,
             'is_approved': False,
         }
@@ -28,15 +28,15 @@ class JobInstanceModel():
             raise ValidationError("Job model not found")
 
         # Participants
-        built_jobinstance['participants'] = [
+        built_jobinstance['participant_ids'] = [
             ObjectId(participant_id)
-            for participant_id in request_data.get('participants', [])
+            for participant_id in request_data.get('participant_ids', [])
         ]
 
-        if len(built_jobinstance['participants']) < 1:
+        if len(built_jobinstance['participant_ids']) < 1:
             raise ValidationError("There must be at least one participant")
 
-        for participant_id in built_jobinstance['participants']:
+        for participant_id in built_jobinstance['participant_ids']:
             if not ProfilesModel.find_by_id(participant_id):
                 raise ValidationError("Profile not found")
 

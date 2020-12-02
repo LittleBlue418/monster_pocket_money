@@ -13,7 +13,7 @@ class JobInstance(Resource):
                         required=True,
                         type=str,
                         help='Job must be added')
-    parser.add_argument('participants',
+    parser.add_argument('participant_ids',
                         # [ '_id' , '_id' ]
                         action='append',
                         required=True,
@@ -55,7 +55,7 @@ class JobInstance(Resource):
                     job = JobsModel.find_by_id(job_id)
 
                     # Update PROFILES
-                    for profile_id in updated_jobinstance["participants"]:
+                    for profile_id in updated_jobinstance["participant_ids"]:
 
                         updated_profile = ProfilesModel.find_by_id(profile_id)
 
