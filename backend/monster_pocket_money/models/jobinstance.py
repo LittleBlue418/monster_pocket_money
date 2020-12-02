@@ -7,13 +7,6 @@ from pymongo.collection import ObjectId
 class JobInstanceModel():
 
     @staticmethod
-    def return_as_object(obj):
-        return {
-            key: str(value) if key == '_id' else value
-            for key, value in obj.items()
-        }
-
-    @staticmethod
     def find_by_id(_id):
         return mongo.db.jobinstances.find_one({"_id": ObjectId(_id)})
 
@@ -27,7 +20,7 @@ class JobInstanceModel():
         }
 
         # Job
-        built_jobinstance['job_id'] = request_data.get('job_id', '')
+        built_jobinstance['job_id'] = ObjectId(request_data.get('job_id', ''))
 
         if not built_jobinstance['job_id']:
             raise ValidationError("Job instance must include a job model")
@@ -35,7 +28,10 @@ class JobInstanceModel():
             raise ValidationError("Job model not found")
 
         # Participants
-        built_jobinstance['participants'] = request_data.get('participants', [])
+        built_jobinstance['participants'] = [
+            ObjectId(participant_id)
+            for participant_id in request_data.get('participants', [])
+        ]
 
         if len(built_jobinstance['participants']) < 1:
             raise ValidationError("There must be at least one participant")

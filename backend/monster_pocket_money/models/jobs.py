@@ -9,13 +9,6 @@ class JobsModel():
     min = 1
 
     @staticmethod
-    def return_as_object(obj):
-        return {
-            key: str(value) if key == '_id' else value
-            for key, value in obj.items()
-        }
-
-    @staticmethod
     def find_by_id(_id):
         return mongo.db.jobs.find_one({"_id": ObjectId(_id)})
 

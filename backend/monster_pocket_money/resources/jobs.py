@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from pymongo import DESCENDING
 from pymongo.collection import ObjectId
 
-from monster_pocket_money.models import mongo, ValidationError
+from monster_pocket_money.models import mongo, ValidationError, strip_objectid
 from monster_pocket_money.models.jobs import JobsModel
 
 
@@ -43,7 +43,7 @@ class Job(Resource):
         if job is None:
             return {"message": "A job with that ID does not exist"}, 404
 
-        return JobsModel.return_as_object(job)
+        return strip_objectid(job)
 
     def put(self, job_id):
         """ Edit a specific job """
@@ -58,7 +58,7 @@ class Job(Resource):
             updated_job = JobsModel.build_job_from_request(request_data)
             mongo.db.jobs.update({"_id": ObjectId(job_id)}, updated_job)
 
-            return JobsModel.return_as_object(updated_job)
+            return strip_objectid(updated_job)
 
         except ValidationError as error:
             return {"message": error.message}, 400
@@ -83,7 +83,7 @@ class JobsCollection(Resource):
         """ Return all jobs """
         try:
             jobs = [
-                JobsModel.return_as_object(job)
+                strip_objectid(job)
                 for job in mongo.db.jobs.find().sort('name', DESCENDING)
                 # TODO: sort in name Ascending
             ]
@@ -115,7 +115,7 @@ class JobsCollection(Resource):
             result = mongo.db.jobs.insert_one(new_job)
             new_job['_id'] = result.inserted_id
 
-            return JobsModel.return_as_object(new_job)
+            return strip_objectid(new_job)
 
         except ValidationError as error:
             return {'message': error.message}, 400
