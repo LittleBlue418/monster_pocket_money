@@ -2,17 +2,14 @@ import React from 'react'
 import classes from './JobToApprove.module.css'
 import { capitalize } from '../../../../../context/helperFunction'
 import '../../../../../context/siteStyling.css'
+import { Link } from "react-router-dom"
 
 const JobToApprove = ( {jobToApprove} ) => {
   const cssClasses = {
     jobToApproveContainer: ["siteBoxOutline", classes.JobToApproveContainer],
-    editButton: ["siteButton", ],
+    editButton: ["siteButton", "blackText"],
     approvebutton: ["siteButton", "purpleBackground", "whiteText"]
   }
-
-  const editjobToApprove = () => (
-    console.log("edit button clicked")
-  )
 
   const approvejobToApprove = () => (
     console.log("approve button clicked")
@@ -32,10 +29,10 @@ const JobToApprove = ( {jobToApprove} ) => {
       </div>
       <div>
 
-        <button
+        <Link
           className={cssClasses.editButton.join(' ')}
-          onClick={editjobToApprove}
-        >Edit</button>
+          to={`edit_jobinstance/${jobToApprove._id}`}
+        >Edit</Link>
 
         <button
           className={cssClasses.approvebutton.join(' ')}

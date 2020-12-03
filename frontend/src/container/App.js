@@ -13,6 +13,7 @@ import Statistics from '../components/Statistics/Statistics'
 
 import AdminMenu from '../components/AdminMenu/AdminMenu'
 import ApproveCompletedJobs from '../components/AdminMenu/ApproveCompletedJobs/ApproveCompletedJobs'
+import EditJobInstance from '../components/AdminMenu/ApproveCompletedJobs/EditJobInstance/EditJobInstance'
 
 // MateriaUI bug: https://github.com/mui-org/material-ui/issues/13394
 import { ThemeProvider, unstable_createMuiStrictModeTheme as createMuiTheme, } from '@material-ui/core/styles'
@@ -51,6 +52,10 @@ function App() {
 
           <Route path="/statistics">
             <Statistics />
+          </Route>
+
+          <Route path="/edit_jobinstance/:jobinstance_id">
+            <EditJobInstance />
           </Route>
 
           <Route path="/admin" >
