@@ -1,14 +1,13 @@
 import React from 'react'
 import classes from './JobToApprove.module.css'
 import { capitalize } from '../../../../../context/helperFunction'
-import '../../../../../context/siteStyling.css'
 import { Link } from "react-router-dom"
 
 const JobToApprove = ( {jobToApprove} ) => {
   const cssClasses = {
     jobToApproveContainer: ["siteBoxOutline", classes.JobToApproveContainer],
-    editButton: ["siteButton", "blackText"],
-    approvebutton: ["siteButton", "purpleBackground", "whiteText"]
+    editButton: ["site-button", "secondary-button"],
+    approvebutton: ["site-button", "primary-button"]
   }
 
   const approvejobToApprove = () => (

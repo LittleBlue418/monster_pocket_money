@@ -1,13 +1,12 @@
 import React from 'react'
 import classes from './ApproveCompletedJobs.module.css'
-import '../../../context/siteStyling.css'
 import JobsToApprove from './JobsToApprove/JobsToApprove'
 
 
 const ApproveCompletedJobs = () => {
   return (
-    <div className="sitePage">
-      <h2 className="sitePageTitle">Approve Completed Jobs</h2>
+    <div className="site-page">
+      <h2 className="site-pageTitle">Approve Completed Jobs</h2>
       <JobsToApprove />
     </div>
   )

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import classes from './EditJobInstance.module.css'
-import '../../../../context/siteStyling.css'
 import { capitalize } from '../../../../context/helperFunction'
 
 import { useParams, useHistory } from "react-router-dom"
@@ -23,9 +22,9 @@ const EditJobInstance = () => {
 
   const cssClasses = {
 
-    monsterButton: ["siteButton", "blackText"],
-    approveButton: ["siteButton", "purpleBackground", "whiteText"],
-    deleteButton: ["siteButton"],
+    monsterButton: ["site-button", "secondary-button"],
+    approveButton: ["site-button", "primary-button"],
+    deleteButton: ["site-button", "secondary-button"],
   }
 
   /* Get Job instance */
@@ -91,7 +90,7 @@ const EditJobInstance = () => {
   const anyProfileSelected = profiles.some(profile => profile.selected)
 
   return (
-    <div className="sitePage">
+    <div className="site-page">
 
       <Dialog
         open={openDoneDialog}
@@ -135,7 +134,7 @@ const EditJobInstance = () => {
 
       </Dialog>
 
-      <h2 className="sitePageTitle">Edit Job Instance</h2>
+      <h2 className="site-pageTitle">Edit Job Instance</h2>
 
       <div className="siteBoxOutline">
         {capitalize(jobInstance.job.name)}
