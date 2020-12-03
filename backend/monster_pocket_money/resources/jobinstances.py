@@ -29,10 +29,39 @@ class JobInstance(Resource):
 
     def get(self, jobinstance_id):
         """ Return a specific job instance """
-        jobinstance = JobInstanceModel.find_by_id(jobinstance_id)
+
+        jobinstance = next(mongo.db.jobinstances.aggregate([
+            {
+                '$match': {
+                    '_id': ObjectId(jobinstance_id)
+                }
+            }, {
+                '$lookup': {
+                    'from': 'profiles',
+                    'localField': 'participant_ids',
+                    'foreignField': '_id',
+                    'as': 'participants'
+                }
+            }, {
+                '$lookup': {
+                    'from': 'jobs',
+                    'localField': 'job_id',
+                    'foreignField': '_id',
+                    'as': 'job'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$job'
+                }
+            }
+        ]))
+
+        # print(jobinstance)
 
         if jobinstance is None:
             return {"message": "A job with that ID does not exist"}, 404
+
+        # stripped_jobinstance =
 
         return strip_objectid(jobinstance)
 
