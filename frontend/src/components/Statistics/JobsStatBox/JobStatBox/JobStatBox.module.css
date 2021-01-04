@@ -2,15 +2,27 @@
     margin-bottom: 40px;
 }
 
+.JobHeading {
+    padding-left: 25px;
+    font-size: 120%;
+}
+
 .JobBody {
     margin: 2vw;
-    padding: 4vw 6vw;
+    padding: 4vw 3vw;
     border: 3px solid lightgrey;
     border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .ParticipantDiv {
-
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 110%;
 }
 
 .ProfilePicDiv {

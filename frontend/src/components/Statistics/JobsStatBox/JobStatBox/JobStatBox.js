@@ -1,33 +1,34 @@
 import React from 'react'
 import classes from './JobStatBox.module.css'
+import { capitalize } from '../../../../context/helperFunction'
 
 const JobStatBox = ({ job }) => {
 
   return(
     <div className={classes.JobStatBox}>
-      <div>Job Stat Box</div>
-      {/*
-      <div>{job.name}</div>
+
+      <div className={classes.JobHeading}>
+        {capitalize(job.name)}
+      </div>
 
       <div className={classes.JobBody}>
         {
-          Object.entries(job.participants).map((job_participant) => {
-
-            const profilePicClasses = [classes[job_participant.picture], classes.ProfilePicDiv]
+          job.profiles.map((profile) => {
+            const profilePicClasses = [classes[profile.picture], classes.ProfilePicDiv]
 
             return(
               <div
-                key={job_participant._id}
+                key={profile._id}
                 className={classes.ParticipantDiv}
               >
                   <div className={profilePicClasses.join(' ')}></div>
-                  <div>{job_participant.count}</div>
+                  <div>{profile.number_completed_instances}</div>
               </div>
             )
           })
         }
       </div>
-      */}
+
     </div>
   )
 }
