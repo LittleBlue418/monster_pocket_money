@@ -11,7 +11,7 @@ const TotalMoney = ({profile, index}) => {
   if (index === 0) {
     ranking = <div className={classes.Winner}></div>
   } else {
-    ranking = <div className={classes.Rank}>{index += 1}</div>
+    ranking = <div className={classes.Rank}>{index + 1}</div>
   }
 
   return (
