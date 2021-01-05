@@ -78,7 +78,11 @@ class JobInstance(Resource):
                             return {"message": f"Participant {participant_id} not found in database"}
 
                     # Updating the job instance
-                    job_instance["participant_ids"] = request_data["participant_ids"]
+                    job_instance["participant_ids"] = [
+                        ObjectId(participant_id)
+                        for participant_id in request_data["participant_ids"]
+                    ]
+
                     mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, job_instance)
 
                     return strip_objectid(job_instance)
