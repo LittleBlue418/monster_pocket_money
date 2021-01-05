@@ -63,6 +63,7 @@ class JobInstance(Resource):
                 with session.start_transaction():
 
                     job_instance = JobInstanceModel.find_by_id(jobinstance_id)
+                    participants = []
 
                     if not job_instance:
                         return {"message": "A job instance with that ID does not exist"}, 404
@@ -74,8 +75,10 @@ class JobInstance(Resource):
                         return {"message": "A job instance must have participants"}, 400
 
                     for participant_id in request_data["participant_ids"]:
-                        if not ProfilesModel.find_by_id(participant_id):
+                        profile = ProfilesModel.find_by_id(participant_id)
+                        if not profile:
                             return {"message": f"Participant {participant_id} not found in database"}
+                        participants.append(profile)
 
                     # Updating the job instance
                     job_instance["participant_ids"] = [
@@ -84,6 +87,8 @@ class JobInstance(Resource):
                     ]
 
                     mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, job_instance)
+                    job_instance["participants"] = participants
+                    job_instance["job"] = JobsModel.find_by_id(job_instance["job_id"])
 
                     return strip_objectid(job_instance)
 
