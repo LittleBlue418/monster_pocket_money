@@ -1,3 +1,4 @@
+import traceback
 from flask_restful import Resource, reqparse
 from pymongo.collection import ObjectId
 
@@ -9,23 +10,11 @@ from monster_pocket_money.models.profiles import ProfilesModel
 
 class JobInstance(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('job_id',
-                        required=True,
-                        type=str,
-                        help='Job must be added')
     parser.add_argument('participant_ids',
                         # [ '_id' , '_id' ]
                         action='append',
                         required=True,
                         help='Job must have participants')
-    parser.add_argument('completion_date',
-                        type=int,  # TODO: type=datetime
-                        required=True,
-                        help='Job must have a completion date')
-    parser.add_argument('is_approved',
-                        type=bool,
-                        required=True,
-                        help='Job must have an approved status')
 
     def get(self, jobinstance_id):
         """ Return a specific job instance """
@@ -66,51 +55,39 @@ class JobInstance(Resource):
         return strip_objectid(jobinstance)
 
     def put(self, jobinstance_id):
-        """ Edit a specific job instance """
+        """ Edit the participants in a job instance """
         request_data = JobInstance.parser.parse_args()
 
-        if not JobInstanceModel.find_by_id(jobinstance_id):
-            return {"message": "A job instance with that ID does not exist"}, 404
-
         try:
-            with mongo.cx.start_session()as session:
+            with mongo.cx.start_session() as session:
                 with session.start_transaction():
 
+                    job_instance = JobInstanceModel.find_by_id(jobinstance_id)
+
+                    if not job_instance:
+                        return {"message": "A job instance with that ID does not exist"}, 404
+
+                    if job_instance["is_approved"]:
+                        return {"message": "already approved"}, 400
+
+                    if not request_data["participant_ids"]:
+                        return {"message": "A job instance must have participants"}, 400
+
+                    for participant_id in request_data["participant_ids"]:
+                        if not ProfilesModel.find_by_id(participant_id):
+                            return {"message": f"Participant {participant_id} not found in database"}
+
                     # Updating the job instance
-                    updated_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
-                    mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, updated_jobinstance)
+                    job_instance["participant_ids"] = request_data["participant_ids"]
+                    mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, job_instance)
 
-                    job_id = updated_jobinstance["job_id"]
-                    job = JobsModel.find_by_id(job_id)
-
-                    # Update PROFILES
-                    for profile_id in updated_jobinstance["participant_ids"]:
-
-                        updated_profile = ProfilesModel.find_by_id(profile_id)
-
-                        # Completed Jobs
-                        if job_id in updated_profile["completed_jobs"]:
-                            updated_profile["completed_jobs"][job_id]["number_completed_instances"] += 1
-                        else:
-                            updated_profile["completed_jobs"][job_id] = {
-                                "job_name": job["name"],
-                                "number_completed_instances": 1
-                            }
-
-                        # Money Owed
-                        updated_profile["money_owed"] += job["reward"]
-
-                        # Total_money_earned
-                        updated_profile["total_money_earned"] += job["reward"]
-
-                        mongo.db.profiles.update({"_id": profile_id}, updated_profile)
-
-                    return strip_objectid(updated_jobinstance)
+                    return strip_objectid(job_instance)
 
         except ValidationError as error:
             return {"message": error.message}, 400
 
         except Exception as error:
+            traceback.print_exc(error)
             return {"message": "unknown error"}, 500
 
     def delete(self, jobinstance_id):
@@ -129,21 +106,48 @@ class ApproveJobInstance(Resource):
 
     def post(self, jobinstance_id):
         """ Endpoint to approve a job instance where no edit required """
-        job_instance = JobInstanceModel.find_by_id(jobinstance_id)
-
-        if not job_instance:
-            return {"message": "A job instance with that ID does not exist"}, 404
 
         try:
             with mongo.cx.start_session() as session:
                 with session.start_transaction():
 
+                    job_instance = JobInstanceModel.find_by_id(jobinstance_id)
+
+                    if not job_instance:
+                        return {"message": "A job instance with that ID does not exist"}, 404
+
+                    # Update JOBINSTANCE
                     if job_instance["is_approved"]:
                         return {"message": "already approved"}, 400
 
                     job_instance["is_approved"] = True
 
                     mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, job_instance)
+
+                    # Update PROFILES
+                    job_id = str(job_instance["job_id"])
+                    job = JobsModel.find_by_id(job_id)
+
+                    for profile_id in job_instance["participant_ids"]:
+
+                        updated_profile = ProfilesModel.find_by_id(profile_id)
+
+                        # Completed Jobs
+                        if job_id in updated_profile["completed_jobs"]:
+                            updated_profile["completed_jobs"][job_id]["number_completed_instances"] += 1
+                        else:
+                            updated_profile["completed_jobs"][job_id] = {
+                                "job_name": job["name"],
+                                "number_completed_instances": 1
+                            }
+
+                        # Money Owed
+                        updated_profile["money_owed"] += job["reward"]
+
+                        # Total_money_earned
+                        updated_profile["total_money_earned"] += job["reward"]
+                        print(updated_profile)
+                        mongo.db.profiles.update({"_id": profile_id}, updated_profile)
 
                     return strip_objectid(job_instance)
 
