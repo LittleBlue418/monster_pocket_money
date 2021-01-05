@@ -125,6 +125,35 @@ class JobInstance(Resource):
         return {"message": "Job instance deleted"}
 
 
+class ApproveJobInstance(Resource):
+
+    def post(self, jobinstance_id):
+        """ Endpoint to approve a job instance where no edit required """
+        job_instance = JobInstanceModel.find_by_id(jobinstance_id)
+
+        if not job_instance:
+            return {"message": "A job instance with that ID does not exist"}, 404
+
+        try:
+            with mongo.cx.start_session() as session:
+                with session.start_transaction():
+
+                    if job_instance["is_approved"]:
+                        return {"message": "already approved"}, 400
+
+                    job_instance["is_approved"] = True
+
+                    mongo.db.jobinstances.update({"_id": ObjectId(jobinstance_id)}, job_instance)
+
+                    return strip_objectid(job_instance)
+
+        except Exception as error:
+            traceback.print_exc(error)
+            return {"message": "unknown error"}, 500
+
+        return "foo bar"
+
+
 class JobInstancesCollection(Resource):
 
     def get(self):
