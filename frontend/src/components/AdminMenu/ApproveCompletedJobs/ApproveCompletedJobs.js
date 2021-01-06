@@ -54,6 +54,8 @@ const JobsToApprove = () => {
           instance._id !== approvedJobInstance._id
         )
         setJobInstances(updateJobInstanceList)
+      }).catch((error) => {
+        console.log(error)
       })
   }
 
