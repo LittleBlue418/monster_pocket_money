@@ -15,9 +15,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 const JobsToApprove = () => {
   const API = useContext(APIContext)
   const [jobInstances, setJobInstances] = useState(null)
-  const [currentJobInstance, setCurrentJobInstance] = useState(null)
+  const [jobInstanceToEdit, setJobInstanceToEdit] = useState(null)
   const [profiles, setProfiles] = useState([])
-  const [openEditDialog, setOpenEditDialog] = useState(false)
 
   /* Get Job instance */
   useEffect(() => {
@@ -58,7 +57,7 @@ const JobsToApprove = () => {
   }
 
   const editJobinstance = (jobInstance) => {
-    setCurrentJobInstance(jobInstance)
+    setJobInstanceToEdit(jobInstance)
 
     const newProfiles = profiles.map((profile) => {
       profile.selected = jobInstance.participant_ids.includes(profile._id)
@@ -66,11 +65,10 @@ const JobsToApprove = () => {
     })
 
     setProfiles(newProfiles)
-    setOpenEditDialog(true)
   }
 
   const deleteJobinstance = (jobInstance) => {
-    setCurrentJobInstance(jobInstance)
+    setJobInstanceToEdit(jobInstance)
 
   }
 
@@ -85,7 +83,7 @@ const JobsToApprove = () => {
     })
 
     API.update_jobinstance(
-      currentJobInstance._id, participantIDs)
+      jobInstanceToEdit._id, participantIDs)
       .then((updatedJobInstance) => {
         console.log(updatedJobInstance)
         const updatedJobInstanceList = jobInstances.map((jobInstance) => {
@@ -98,7 +96,7 @@ const JobsToApprove = () => {
 
 
         setJobInstances(updatedJobInstanceList)
-        setOpenEditDialog(false)
+        setJobInstanceToEdit(null)
 
       }).catch((error) => {
         console.log(error)
@@ -136,8 +134,8 @@ const JobsToApprove = () => {
   return (
     <>
       <Dialog
-          open={openEditDialog}
-          onClose={() => setOpenEditDialog(false)}
+          open={jobInstanceToEdit !== null}
+          onClose={() => setJobInstanceToEdit(null)}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -160,7 +158,7 @@ const JobsToApprove = () => {
           </DialogContent>
 
           <DialogActions className={classes.ButtonDiv}>
-            <button className={"site-button secondary-button"} onClick={() => setOpenEditDialog(false)} color="secondary">
+            <button className={"site-button secondary-button"} onClick={() => setJobInstanceToEdit(null)} color="secondary">
               Cancel
             </button>
 
