@@ -168,6 +168,24 @@ class ApproveJobInstance(Resource):
 
 
 class JobInstancesCollection(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('job_id',
+                        required=True,
+                        type=str,
+                        help='Job must be added')
+    parser.add_argument('participant_ids',
+                        # [ '_id' , '_id' ]
+                        action='append',
+                        required=True,
+                        help='Job must have participants')
+    parser.add_argument('completion_date',
+                        type=int,  # TODO: type=datetime
+                        required=True,
+                        help='Job must have a completion date')
+    parser.add_argument('is_approved',
+                        type=bool,
+                        required=True,
+                        help='Job must have an approved status')
 
     def get(self):
         """ Return all job instances """
@@ -213,7 +231,7 @@ class JobInstancesCollection(Resource):
         """ Create a new job instance """
 
         try:
-            request_data = JobInstance.parser.parse_args()
+            request_data = self.parser.parse_args()
         except Exception as error:
             print(error)
             return {'message': "Malformed input. Check the console"}, 400
@@ -223,6 +241,7 @@ class JobInstancesCollection(Resource):
                 with session.start_transaction():
 
                     # Building the jobInstance
+                    print(request_data)
                     new_jobinstance = JobInstanceModel.build_jobinstance_from_request(request_data)
 
                     if new_jobinstance['is_approved']:
