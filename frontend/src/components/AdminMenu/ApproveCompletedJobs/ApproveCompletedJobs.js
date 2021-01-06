@@ -2,14 +2,11 @@ import React, { useState, useContext, useEffect  } from 'react'
 import classes from './ApproveCompletedJobs.css'
 
 import { APIContext } from '../../../context/APIContext'
-
 import JobInstanceCard from './JobInstanceCard/JobInstanceCard'
-import ProfileToggler from './ProfileToggler/ProfileToggler'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
+import { DeleteDialogue } from './Dialoges/DeleteDialogue'
+import { EditDialogue } from './Dialoges/EditDialogue'
 
 
 const JobsToApprove = () => {
@@ -34,17 +31,6 @@ const JobsToApprove = () => {
       setProfiles(updatedProfiles)
     })
   }, [setProfiles, API])
-
-  /* Toggle 'selected' status on profiles */
-  const toggleProfile = (profileId) => {
-    const newProfiles = profiles.map((profile) => {
-      if (profile._id === profileId) {
-        profile.selected = !profile.selected
-      }
-      return profile
-    })
-    setProfiles(newProfiles)
-  }
 
 
   const approveJobinstance = (jobInstance) => {
@@ -81,10 +67,7 @@ const JobsToApprove = () => {
       }).catch((error) => {
         console.log(error)
       })
-
   }
-
-
 
   const saveJobInstanceToDatabase = () => {
     const participantIDs = []
@@ -106,7 +89,6 @@ const JobsToApprove = () => {
           }
         })
 
-
         setJobInstances(updatedJobInstanceList)
         setJobInstanceToEdit(null)
 
@@ -117,16 +99,32 @@ const JobsToApprove = () => {
 
   if (jobInstances === null) return <CircularProgress />
 
-  const pageContent = () => {
-    if (jobInstances.length === 0) {
-      return (
+  if (jobInstances.length === 0)
+    return (
         <div className={classes.EmptyNotification}>
           Hey, it looks like there are no jobs to approve right now!
         </div>
       )
 
-    } else {
-      return(
+
+  return (
+    <>
+
+      <EditDialogue
+        jobInstanceToEdit={jobInstanceToEdit}
+        setJobInstanceToEdit={setJobInstanceToEdit}
+        profiles={profiles}
+        setProfiles={setProfiles}
+        onSaveJobInstance={saveJobInstanceToDatabase}
+      />
+
+      <DeleteDialogue
+        jobInstanceToDelete={jobInstanceToDelete}
+        setJobInstanceToDelete={setJobInstanceToDelete}
+        onDeleteJobInstance={deleteJobinstance}
+      />
+
+      {
         jobInstances.map((jobInstance) => (
           <JobInstanceCard
             key={jobInstance._id}
@@ -136,85 +134,6 @@ const JobsToApprove = () => {
             onDelete={setJobInstanceToDelete}
           />
         ))
-      )
-    }
-  }
-
-  /* Check if any profiles havce been selected */
-  const anyProfileSelected = profiles.some(profile => profile.selected)
-
-  return (
-    <>
-      <Dialog
-          open={jobInstanceToEdit !== null}
-          onClose={() => setJobInstanceToEdit(null)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <h2 className={classes.DialogueTitle}>Who did this job?</h2>
-
-          <DialogContent>
-            <div className={classes.ProfilesDiv}>
-              {
-                profiles.map((profile) => {
-                  return (
-                    <ProfileToggler
-                      profile={profile}
-                      key={profile._id}
-                      onClick={() => toggleProfile(profile._id)}
-                    />
-                  )
-                })
-              }
-              </div>
-          </DialogContent>
-
-          <DialogActions className={classes.ButtonDiv}>
-            <button className={"site-button secondary-button"} onClick={() => setJobInstanceToEdit(null)} color="secondary">
-              Cancel
-            </button>
-
-            <button
-              className={"site-button primary-button"}
-              color="primary"
-              disabled={!anyProfileSelected}
-              onClick={saveJobInstanceToDatabase}
-            >
-              Save
-            </button>
-
-          </DialogActions>
-
-        </Dialog>
-
-        <Dialog
-          open={jobInstanceToDelete !== null}
-          onClose={() => setJobInstanceToDelete(null)}
-          aria-labelledby="delete-dialog-title"
-          aria-describedby="delete-dialog-description"
-        >
-          <h2 className={classes.DialogueTitle}>Are you sure?</h2>
-
-
-          <DialogActions className={classes.ButtonDiv}>
-            <button className={"site-button secondary-button"} onClick={() => setJobInstanceToDelete(null)} color="secondary">
-              Cancel
-            </button>
-
-            <button
-              className={"site-button primary-button"}
-              color="primary"
-              onClick={deleteJobinstance}
-            >
-              Delete
-            </button>
-
-          </DialogActions>
-
-        </Dialog>
-
-      {
-        pageContent()
       }
 
     </>
