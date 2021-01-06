@@ -85,7 +85,7 @@ const JobsToApprove = () => {
     })
 
     API.update_jobinstance(
-      currentJobInstance._id, {"participant_ids": participantIDs})
+      currentJobInstance._id, participantIDs)
       .then((updatedJobInstance) => {
         console.log(updatedJobInstance)
         const updatedJobInstanceList = jobInstances.map((jobInstance) => {

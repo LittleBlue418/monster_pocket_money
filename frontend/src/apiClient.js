@@ -67,8 +67,8 @@ export class APIClient {
     return this.http.get(this.baseUrl + '/api/jobinstances/' + jobinstance_id).then(result => result.data)
   }
 
-  update_jobinstance(jobinstance_id, jobinstance) {
-    return this.http.put(this.baseUrl + '/api/jobinstances/' + jobinstance_id, jobinstance).then(result => result.data)
+  update_jobinstance(jobinstance_id, participant_ids) {
+    return this.http.put(this.baseUrl + '/api/jobinstances/' + jobinstance_id, {"participant_ids": participant_ids}).then(result => result.data)
   }
 
   delete_jobinstance(jobinstance_id) {
