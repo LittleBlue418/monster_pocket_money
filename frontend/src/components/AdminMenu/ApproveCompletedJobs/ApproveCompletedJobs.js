@@ -48,7 +48,13 @@ const JobsToApprove = () => {
 
 
   const approveJobinstance = (jobInstance) => {
-    setCurrentJobInstance(jobInstance)
+    API.approve_jobinstance(jobInstance._id)
+      .then((approvedJobInstance) => {
+        const updateJobInstanceList = jobInstances.filter(instance =>
+          instance._id !== approvedJobInstance._id
+        )
+        setJobInstances(updateJobInstanceList)
+      })
   }
 
   const editJobinstance = (jobInstance) => {

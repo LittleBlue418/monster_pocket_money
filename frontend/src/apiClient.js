@@ -17,6 +17,7 @@ export class APIClient {
     this.get_jobinstance = this.get_jobinstance.bind(this)
     this.update_jobinstance = this.update_jobinstance.bind(this)
     this.delete_jobinstance = this.delete_jobinstance.bind(this)
+    this.approve_jobinstance = this.approve_jobinstance.bind(this)
 
     this.list_profiles = this.list_profiles.bind(this)
     this.create_profile = this.create_profile.bind(this)
@@ -72,6 +73,10 @@ export class APIClient {
 
   delete_jobinstance(jobinstance_id) {
     return this.http.delete(this.baseUrl + '/api/jobinstances/' + jobinstance_id).then(result => result.data)
+  }
+
+  approve_jobinstance(jobinstance_id) {
+    return this.http.post(this.baseUrl + '/api/jobinstances/' + jobinstance_id + '/approve').then(result => result.data)
   }
 
 
