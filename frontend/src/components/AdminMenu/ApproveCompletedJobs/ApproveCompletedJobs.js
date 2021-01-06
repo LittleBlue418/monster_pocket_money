@@ -16,6 +16,7 @@ const JobsToApprove = () => {
   const API = useContext(APIContext)
   const [jobInstances, setJobInstances] = useState(null)
   const [jobInstanceToEdit, setJobInstanceToEdit] = useState(null)
+  const [jobInstanceToDelete, setJobInstanceToDelete] = useState(null)
   const [profiles, setProfiles] = useState([])
 
   /* Get Job instance */
@@ -67,8 +68,17 @@ const JobsToApprove = () => {
     setProfiles(newProfiles)
   }
 
-  const deleteJobinstance = (jobInstance) => {
-    setJobInstanceToEdit(jobInstance)
+  const deleteJobinstance = () => {
+    API.delete_jobinstance(jobInstanceToDelete._id)
+      .then(() => {
+        const updateJobInstanceList = jobInstances.filter(instance =>
+          instance._id !== jobInstanceToDelete._id
+        )
+        setJobInstances(updateJobInstanceList)
+        setJobInstanceToDelete(null)
+      }).catch((error) => {
+        console.log(error)
+      })
 
   }
 
@@ -121,7 +131,7 @@ const JobsToApprove = () => {
             jobInstance={jobInstance}
             onApprove={approveJobinstance}
             onEdit={editJobinstance}
-            onDelete={deleteJobinstance}
+            onDelete={setJobInstanceToDelete}
           />
         ))
       )
@@ -169,6 +179,32 @@ const JobsToApprove = () => {
               onClick={saveJobInstanceToDatabase}
             >
               Save
+            </button>
+
+          </DialogActions>
+
+        </Dialog>
+
+        <Dialog
+          open={jobInstanceToDelete !== null}
+          onClose={() => setJobInstanceToDelete(null)}
+          aria-labelledby="delete-dialog-title"
+          aria-describedby="delete-dialog-description"
+        >
+          <h2 className={classes.DialogueTitle}>Are you sure?</h2>
+
+
+          <DialogActions className={classes.ButtonDiv}>
+            <button className={"site-button secondary-button"} onClick={() => setJobInstanceToDelete(null)} color="secondary">
+              Cancel
+            </button>
+
+            <button
+              className={"site-button primary-button"}
+              color="primary"
+              onClick={deleteJobinstance}
+            >
+              Delete
             </button>
 
           </DialogActions>
