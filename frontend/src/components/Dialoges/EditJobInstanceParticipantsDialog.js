@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileToggler from './ProfileToggler/ProfileToggler';
+import ParticipantToggler from './Togglers/ParticipantToggler';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -35,7 +35,7 @@ export function EditJobInstanceParticipantsDialog (
         <div>
           {profiles.map((profile) => {
             return (
-              <ProfileToggler
+              <ParticipantToggler
                 profile={profile}
                 key={profile._id}
                 onClick={() => toggleProfile(profile._id)} />

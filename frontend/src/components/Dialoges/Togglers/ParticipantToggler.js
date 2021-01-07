@@ -1,7 +1,7 @@
 import React from 'react'
-import classes from './ProfileToggler.module.css'
+import classes from './Togglers.module.css'
 
-const ProfileToggler = ({profile, onClick}) => {
+const ParticipantToggler = ({profile, onClick}) => {
 
   const profilePicClasses = [classes[profile.picture], classes.ProfilePicDiv]
 
@@ -17,4 +17,4 @@ const ProfileToggler = ({profile, onClick}) => {
   )
 }
 
-export default ProfileToggler
+export default ParticipantToggler
