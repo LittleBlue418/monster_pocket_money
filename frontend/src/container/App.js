@@ -13,6 +13,7 @@ import Statistics from '../components/Statistics/Statistics'
 
 import AdminMenu from '../components/AdminMenu/AdminMenu'
 import ApproveCompletedJobs from '../components/AdminMenu/ApproveCompletedJobs/ApproveCompletedJobs'
+import MonsterProfiles from '../components/AdminMenu/MonsterProfiles/MonsterProfiles'
 
 
 // MateriaUI bug: https://github.com/mui-org/material-ui/issues/13394
@@ -48,6 +49,10 @@ function App() {
 
           <Route path="/money">
             <Money />
+          </Route>
+
+          <Route path="/profile_manager">
+            <MonsterProfiles />
           </Route>
 
           <Route path="/statistics">
