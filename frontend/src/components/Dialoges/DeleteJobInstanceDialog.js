@@ -2,7 +2,9 @@ import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 
-export function DeleteDialogue({ jobInstanceToDelete, setJobInstanceToDelete, onDeleteJobInstance }) {
+export function DeleteJobInstanceDialog (
+  { jobInstanceToDelete, setJobInstanceToDelete, onDeleteJobInstance }
+) {
   return (
     <Dialog
       open={jobInstanceToDelete !== null}
@@ -31,3 +33,4 @@ export function DeleteDialogue({ jobInstanceToDelete, setJobInstanceToDelete, on
     </Dialog>
   );
 }
+

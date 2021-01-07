@@ -5,8 +5,8 @@ import { APIContext } from '../../../context/APIContext'
 import JobInstanceCard from './JobInstanceCard/JobInstanceCard'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { DeleteDialogue } from './Dialoges/DeleteDialogue'
-import { EditDialogue } from './Dialoges/EditDialogue'
+import { DeleteJobInstanceDialog } from '../../Dialoges/DeleteJobInstanceDialog'
+import { EditJobInstanceParticipantsDialog } from '../../Dialoges/EditJobInstanceParticipantsDialog'
 
 
 const JobsToApprove = () => {
@@ -110,7 +110,7 @@ const JobsToApprove = () => {
   return (
     <>
 
-      <EditDialogue
+      <EditJobInstanceParticipantsDialog
         jobInstanceToEdit={jobInstanceToEdit}
         setJobInstanceToEdit={setJobInstanceToEdit}
         profiles={profiles}
@@ -118,7 +118,7 @@ const JobsToApprove = () => {
         onSaveJobInstance={saveJobInstanceToDatabase}
       />
 
-      <DeleteDialogue
+      <DeleteJobInstanceDialog
         jobInstanceToDelete={jobInstanceToDelete}
         setJobInstanceToDelete={setJobInstanceToDelete}
         onDeleteJobInstance={deleteJobinstance}

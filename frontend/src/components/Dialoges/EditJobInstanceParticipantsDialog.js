@@ -4,8 +4,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
-export function EditDialogue(
-  { jobInstanceToEdit, setJobInstanceToEdit, profiles, setProfiles, onSaveJobInstance }) {
+export function EditJobInstanceParticipantsDialog (
+  { jobInstanceToEdit, setJobInstanceToEdit, profiles, setProfiles, onSaveJobInstance }
+) {
 
   /* Check if any profiles havce been selected */
   const anyProfileSelected = profiles.some(profile => profile.selected);
@@ -63,3 +64,4 @@ export function EditDialogue(
   );
 
 }
+
